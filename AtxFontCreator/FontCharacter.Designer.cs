@@ -38,10 +38,10 @@
             // 
             // lblCharacter
             // 
-            lblCharacter.BorderStyle = BorderStyle.Fixed3D;
-            lblCharacter.Location = new Point(3, 3);
+            lblCharacter.AutoSize = true;
+            lblCharacter.Location = new Point(3, 7);
             lblCharacter.Name = "lblCharacter";
-            lblCharacter.Size = new Size(22, 23);
+            lblCharacter.Size = new Size(15, 15);
             lblCharacter.TabIndex = 0;
             lblCharacter.Text = "A";
             lblCharacter.TextAlign = ContentAlignment.MiddleCenter;
@@ -51,7 +51,7 @@
             chkInclude.AutoSize = true;
             chkInclude.Checked = true;
             chkInclude.CheckState = CheckState.Checked;
-            chkInclude.Location = new Point(31, 6);
+            chkInclude.Location = new Point(21, 8);
             chkInclude.Name = "chkInclude";
             chkInclude.Size = new Size(15, 14);
             chkInclude.TabIndex = 1;

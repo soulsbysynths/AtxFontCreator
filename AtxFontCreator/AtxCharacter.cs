@@ -15,7 +15,7 @@ namespace AtxFontCreator
     public partial class AtxCharacter : UserControl
     {
         private bool[,] pixels = new bool[0, 0];
-        private bool MouseMoveWay = false;
+        private bool EditWay = false;
 
         public enum Direction
         {
@@ -28,29 +28,34 @@ namespace AtxFontCreator
         public AtxCharacter()
         {
             InitializeComponent();
-        }
-
-        public enum CharacterMode
-        {
-            Select,
-            Lock,
-            Edit
+            LockWidth();
         }
 
         public char Character { get; set; }
 
-        private CharacterMode mode;
+        private bool selected = true;
 
-        public CharacterMode Mode
+        public bool Selected
         {
-            get { return mode; }
-            set
-            {
-                mode = value;
+            get { return selected; }
+            set 
+            { 
+                selected = value; 
                 Invalidate();
             }
         }
 
+        private bool locked;
+
+        public bool Locked
+        {
+            get { return locked; }
+            set 
+            { 
+                locked = value;
+                Invalidate();
+            }
+        }
 
         public Size Dimensions
         {
@@ -72,28 +77,58 @@ namespace AtxFontCreator
                 }
 
                 pixels = newPixels;
+                LockWidth();
                 Invalidate();
             }
         }
 
-        public void SetPixel(int x, int y, bool value)
+        public Bitmap GetBitmap()
         {
-            if (Mode == CharacterMode.Lock)
+            if (Dimensions.Width == 0 || Dimensions.Height == 0)
+            {
+                return new Bitmap(1, 1);
+            }
+
+            Bitmap bmp = new(Dimensions.Width, Dimensions.Height);
+            for (int y = 0; y < Dimensions.Height; y++)
+            {
+                for (int x = 0; x < Dimensions.Width; x++)
+                {
+                    bmp.SetPixel(x, y, pixels[x, y] ? Color.White : Color.Black);
+                }
+            }
+
+            return bmp;
+        }
+
+        public bool GetPixel(Point location)
+        {
+            if (location.X < 0 || location.Y < 0 || location.X >= Dimensions.Width || location.Y >= Dimensions.Height)
+            {
+                return false;
+            }
+
+            return pixels[location.X, location.Y];
+        }
+
+        public void SetPixel(Point location, bool value)
+        {
+            if (locked)
             {
                 return;
             }
 
-            if (x < 0 || y < 0 || x >= Dimensions.Width || y >= Dimensions.Height)
+            if (location.X < 0 || location.Y < 0 || location.X >= Dimensions.Width || location.Y >= Dimensions.Height)
             {
                 return;
             }
 
-            if (pixels[x, y] == value)
+            if (pixels[location.X, location.Y] == value)
             {
                 return;
             }
 
-            pixels[x, y] = value;
+            pixels[location.X, location.Y] = value;
             Invalidate();
         }
 
@@ -164,84 +199,9 @@ namespace AtxFontCreator
             Invalidate();
         }
 
-        private void AtxCharacter_Paint(object sender, PaintEventArgs e)
+        public void StartEditPixel(Point location)
         {
-            int w = (int)(GetPixelHeight() * Dimensions.Width);
-            if (Width != w)
-            {
-                Width = w;
-            }
-
-            for (int y = 0; y < Dimensions.Height; y++)
-            {
-                for (int x = 0; x < Dimensions.Width; x++)
-                {
-                    e.Graphics.FillRectangle(pixels[x, y] ? Brushes.Ivory : Brushes.DimGray, GetPixelRectF(x, y));
-                    e.Graphics.DrawRectangle(Pens.Gray, GetPixelRectF(x, y));
-                }
-            }
-
-            Pen pen = Mode switch
-            {
-                CharacterMode.Lock => Pens.Red,
-                CharacterMode.Select => Pens.Yellow,
-                CharacterMode.Edit => Pens.Blue,
-                _ => Pens.Black
-            };
-
-            e.Graphics.DrawRectangle(pen, 0, 0, Width - Pens.Black.Width, Height - Pens.Black.Width);
-        }
-
-        private void AtxCharacter_MouseDown(object sender, MouseEventArgs e)
-        {
-            if (Control.ModifierKeys == Keys.Control)
-            {
-                if (e.Button != MouseButtons.Left || Mode == CharacterMode.Lock)
-                {
-                    return;
-                }
-
-                for (int y = 0; y < Dimensions.Height; y++)
-                {
-                    for (int x = 0; x < Dimensions.Width; x++)
-                    {
-                        if (GetPixelRectF(x, y).Contains(e.Location))
-                        {
-                            pixels[x, y] = !pixels[x, y];
-                            MouseMoveWay = pixels[x, y];
-                            Invalidate();
-                            return;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                if (Mode == CharacterMode.Edit)
-                {
-                    Mode = CharacterMode.Select;
-                }
-                else
-                {
-                    Mode = (CharacterMode)((int)Mode + 1);
-                }
-            }
-
-        }
-
-        private RectangleF GetPixelRectF(int x, int y)
-        {
-            return new RectangleF(x * GetPixelHeight(), y * GetPixelHeight(), GetPixelHeight(), GetPixelHeight());
-        }
-
-        private float GetPixelHeight()
-        {
-            return Dimensions.Height == 0 ? 0 : (float)Height / Dimensions.Height;
-        }
-
-        private void AtxCharacter_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (e.Button != MouseButtons.Left || Mode == CharacterMode.Lock || Control.ModifierKeys != Keys.Control)
+            if (locked)
             {
                 return;
             }
@@ -250,14 +210,84 @@ namespace AtxFontCreator
             {
                 for (int x = 0; x < Dimensions.Width; x++)
                 {
-                    if (GetPixelRectF(x, y).Contains(e.Location) && pixels[x, y] != MouseMoveWay)
+                    if (GetPixelRectF(new Point(x, y)).Contains(location))
                     {
-                        pixels[x, y] = MouseMoveWay;
+                        pixels[x, y] = !pixels[x, y];
+                        EditWay = pixels[x, y];
                         Invalidate();
                         return;
                     }
                 }
             }
+        }
+
+        public void ContinueEditPixel(Point location)
+        {
+            if (locked)
+            {
+                return;
+            }
+
+            for (int y = 0; y < Dimensions.Height; y++)
+            {
+                for (int x = 0; x < Dimensions.Width; x++)
+                {
+                    if (GetPixelRectF(new Point(x, y)).Contains(location))
+                    {
+                        if (pixels[x, y] != EditWay)
+                        {
+                            pixels[x, y] = EditWay;
+                            Invalidate();
+                        }
+
+                        return;
+                    }
+                }
+            }
+        }
+
+        private void AtxCharacter_Paint(object sender, PaintEventArgs e)
+        {
+            for (int y = 0; y < Dimensions.Height; y++)
+            {
+                for (int x = 0; x < Dimensions.Width; x++)
+                {
+                    RectangleF rectF = GetPixelRectF(new Point(x, y));
+                    e.Graphics.FillRectangle(pixels[x, y] ? Brushes.Ivory : Brushes.DimGray, rectF);
+                    e.Graphics.DrawRectangle(Pens.Gray, rectF);
+                }
+            }
+
+            Pen pen = selected ? Pens.White : Pens.Black;
+            e.Graphics.DrawRectangle(pen, 0, 0, Width - pen.Width, Height - pen.Width);
+            if (locked)
+            {
+                e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(64, Color.Black)), 0, 0, Width, Height);
+            }
+        }
+
+        private RectangleF GetPixelRectF(Point location)
+        {
+            return new RectangleF(location.X * GetPixelHeight(), location.Y * GetPixelHeight(), GetPixelHeight(), GetPixelHeight());
+        }
+
+        private float GetPixelHeight()
+        {
+            return Dimensions.Height == 0 ? 0 : (float)Height / Dimensions.Height;
+        }
+
+        private void LockWidth()
+        {
+            int w = (int)(GetPixelHeight() * Dimensions.Width);
+            if (Width != w)
+            {
+                Width = w;
+            }
+        }
+
+        private void AtxCharacter_Resize(object sender, EventArgs e)
+        {
+            LockWidth();
         }
     }
 }

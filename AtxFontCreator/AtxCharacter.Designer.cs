@@ -32,14 +32,15 @@
             // 
             // AtxCharacter
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.FromArgb(224, 224, 224);
             DoubleBuffered = true;
+            Margin = new Padding(4, 5, 4, 5);
             Name = "AtxCharacter";
-            Size = new Size(310, 421);
+            Size = new Size(443, 702);
             Paint += AtxCharacter_Paint;
-            MouseDown += AtxCharacter_MouseDown;
-            MouseMove += AtxCharacter_MouseMove;
+            Resize += AtxCharacter_Resize;
             ResumeLayout(false);
         }
 

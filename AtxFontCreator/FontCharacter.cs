@@ -43,6 +43,11 @@ namespace AtxFontCreator
             get { return sourceRect; }
             set
             {
+                if (sourceRect == value)
+                {
+                    return;
+                }
+
                 sourceRect = value;
                 Resize();
             }
@@ -55,6 +60,11 @@ namespace AtxFontCreator
             get { return destinationBitmap; }
             set
             {
+                if (destinationBitmap == value)
+                {
+                    return;
+                }
+
                 destinationBitmap = value;
                 Resize();
             }

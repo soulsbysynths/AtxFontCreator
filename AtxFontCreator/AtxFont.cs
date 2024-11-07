@@ -5,6 +5,7 @@ using System.Data;
 using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -25,7 +26,38 @@ namespace AtxFontCreator
             InitializeComponent();
         }
 
-        public List<AtxCharacter> Characters { get; set; } = [];
+        private readonly List<AtxCharacter> characters = [];
+
+        public enum EditMode
+        {
+            Edit,
+            Select,
+            Lock,
+        }
+
+        private EditMode mode;
+
+        public EditMode Mode
+        {
+            get { return mode; }
+            set
+            {
+                mode = value;
+                switch (mode)
+                {
+                    case EditMode.Edit:
+                        rdoEdit.Checked = true;
+                        break;
+                    case EditMode.Select:
+                        rdoSelect.Checked = true;
+                        break;
+                    case EditMode.Lock:
+                        rdoLock.Checked = true;
+                        break;
+                }
+            }
+        }
+
 
         public string FontName
         {
@@ -42,11 +74,16 @@ namespace AtxFontCreator
             get { return dimensions; }
             set
             {
+                if (dimensions == value)
+                {
+                    return;
+                }
+
                 dimensions = value;
                 numWidth.Value = dimensions.Width;
                 numHeight.Value = dimensions.Height;
 
-                foreach (AtxCharacter character in Characters)
+                foreach (AtxCharacter character in characters)
                 {
                     character.Dimensions = dimensions;
                 }
@@ -60,10 +97,15 @@ namespace AtxFontCreator
             get { return startCharacter; }
             set
             {
+                if (startCharacter == value)
+                {
+                    return;
+                }
+
                 startCharacter = value;
                 numStartCharacter.Value = (int)startCharacter;
                 lblStartCharacter.Text = ((char)startCharacter).ToString();
-                AddRemoveCharacters();
+                AddRemovecharacters();
                 StartCharacterChanged?.Invoke(this, EventArgs.Empty);
             }
         }
@@ -73,9 +115,14 @@ namespace AtxFontCreator
             get { return characterCount; }
             set
             {
+                if (characterCount == value)
+                {
+                    return;
+                }
+
                 characterCount = value;
                 numCharacterCount.Value = characterCount;
-                AddRemoveCharacters();
+                AddRemovecharacters();
                 CharacterCountChanged?.Invoke(this, EventArgs.Empty);
             }
         }
@@ -116,122 +163,218 @@ namespace AtxFontCreator
             return (startCharacter + characterCount - 1);
         }
 
-        private void AddRemoveCharacters()
+        public AtxCharacter GetCharacter(int charIndex)
         {
-            const int CHARACTER_HEIGHT = 96;
+            if (charIndex < 0 || charIndex >= characterCount)
+            {
+                AtxCharacter atxCharacter = new()
+                {
+                    Dimensions = dimensions
+                };
+                return atxCharacter;
+            }
+            else
+            {
+                return characters[charIndex];
+            }
+        }
+
+        public AtxCharacter GetCharacter(char character)
+        {
+            int charIndex = (int)character - startCharacter;
+            return GetCharacter(charIndex);
+        }
+
+        private void AddRemovecharacters()
+        {
+
             if (characterCount == 0)
             {
                 return;
             }
 
-            if (Characters.Count == characterCount && Characters[0].Character == startCharacter)
+            if (characters.Count == characterCount && characters[0].Character == startCharacter)
             {
                 return;
             }
 
-            for (int i = Characters.Count - 1; i >= 0; i--)
+            for (int i = characters.Count - 1; i >= 0; i--)
             {
-                if (Characters[i].Character > GetEndCharacter() || Characters[i].Character < startCharacter)
+                if (characters[i].Character > GetEndCharacter() || characters[i].Character < startCharacter)
                 {
-                    Characters[i].Dispose();
-                    Characters.RemoveAt(i);
+                    characters[i].Dispose();
+                    characters.RemoveAt(i);
                 }
             }
 
-            if (Characters.Count == 0)
+            if (characters.Count == 0)
             {
-                for (int i = startCharacter; i < GetEndCharacter(); i++)
+                for (int i = startCharacter; i <= GetEndCharacter(); i++)
                 {
-                    Characters.Add(new()
-                    {
-                        Visible = true,
-                        Character = (char)i,
-                        Dimensions = dimensions,
-                        Height = CHARACTER_HEIGHT
-                    });
+                    characters.Add(CreateCharacter((char)i));
+                }
+            }
+            else
+            {
+                List<AtxCharacter> newcharacters = [];
+                for (int i = startCharacter; i < characters[0].Character; i++)
+                {
+                    newcharacters.Add(CreateCharacter((char)i));
                 }
 
-                return;
-            }
-
-            List<AtxCharacter> newCharacters = [];
-            for (int i = startCharacter; i < Characters[0].Character; i++)
-            {
-                newCharacters.Add(new()
+                characters.InsertRange(0, newcharacters);
+                newcharacters.Clear();
+                for (int i = characters[^1].Character + 1; i <= GetEndCharacter(); i++)
                 {
-                    Visible = true,
-                    Character = (char)i,
-                    Dimensions = dimensions,
-                    Height = CHARACTER_HEIGHT
-                });
+                    newcharacters.Add(CreateCharacter((char)i));
+                }
+
+                characters.AddRange(newcharacters);
             }
 
-            Characters.InsertRange(0, newCharacters);
-            newCharacters.Clear();
-            for (int i = Characters[^1].Character + 1; i <= GetEndCharacter(); i++)
+            foreach (Control control in flpCharacters.Controls)
             {
-                newCharacters.Add(new()
+                if (control is not AtxCharacter)
                 {
-                    Visible = true,
-                    Character = (char)i,
-                    Dimensions = dimensions,
-                    Height = CHARACTER_HEIGHT
-                });
+                    continue;
+                }
+
+                if (!characters.Contains(control))
+                {
+                    flpCharacters.Controls.Remove(control);
+                }
             }
 
-            Characters.AddRange(newCharacters);
+            for (int i = 0; i < characterCount; i++)
+            {
+                if (!flpCharacters.Contains(characters[i]))
+                {
+                    flpCharacters.Controls.Add(characters[i]);
+                }
 
-            flpCharacters.SuspendLayout();
-            flpCharacters.Controls.Clear();
-            flpCharacters.Controls.AddRange([.. Characters]);
-            flpCharacters.ResumeLayout();
+                flpCharacters.Controls.SetChildIndex(characters[i], i);
+            }
         }
 
-        private void BtnSelectAll_Click(object sender, EventArgs e)
+        private AtxCharacter CreateCharacter(char c)
         {
-            foreach (AtxCharacter character in Characters)
+            AtxCharacter character = new()
             {
-                if (character.Mode != AtxCharacter.CharacterMode.Lock)
-                {
-                    character.Mode = AtxCharacter.CharacterMode.Select;
-                }
+                Visible = true,
+                Character = c,
+                Dimensions = dimensions,
+                Height = tbZoom.Value,
+            };
+
+            character.MouseDown += AtxCharacter_MouseDown;
+            character.MouseMove += AtxCharacter_MouseMove;
+            return character;
+        }
+
+        private void AtxCharacter_MouseDown(object? sender, MouseEventArgs e)
+        {
+            if (sender is not AtxCharacter character || e.Button != MouseButtons.Left)
+            {
+                return;
+            }
+
+            switch (mode)
+            {
+                case EditMode.Edit:
+                    character.StartEditPixel(e.Location);
+                    break;
+                case EditMode.Select:
+                    if (!character.Locked)
+                    {
+                        character.Selected = !character.Selected;
+                    }
+                    break;
+                case EditMode.Lock:
+                    character.Locked = !character.Locked;
+                    if (character.Locked)
+                    {
+                        character.Selected = false;
+                    }
+                    break;
+            }
+        }
+
+        private void AtxCharacter_MouseMove(object? sender, MouseEventArgs e)
+        {
+            if (sender is not AtxCharacter character)
+            {
+                return;
+            }
+
+            if (e.Button == MouseButtons.Left && mode == EditMode.Edit)
+            {
+                character.ContinueEditPixel(e.Location);
             }
         }
 
         private void BtnClear_Click(object sender, EventArgs e)
         {
-            foreach (AtxCharacter character in Characters)
+            if(MessageBox.Show("Are you sure you want to clear the selected characters?", "Clear Selected Characters" ,MessageBoxButtons.YesNo,MessageBoxIcon.Question) == DialogResult.No)
             {
-                if (character.Mode == AtxCharacter.CharacterMode.Select)
+                return;
+            }
+
+            foreach (AtxCharacter character in characters)
+            {
+                if (character.Selected)
                 {
                     character.Clear();
                 }
             }
         }
 
-        private void BtnMove_Click(object sender, EventArgs e)
+        private void RdoMode_Click(object sender, EventArgs e)
         {
-            foreach (AtxCharacter character in Characters)
+            RadioButton button = (RadioButton)sender;
+            Mode = (EditMode)Convert.ToInt32(button.Tag);
+        }
+
+        private void TbZoom_Scroll(object sender, EventArgs e)
+        {
+            foreach (AtxCharacter character in characters)
             {
-                if (character.Mode == AtxCharacter.CharacterMode.Select)
+                character.Height = tbZoom.Value;
+            }
+
+            foreach (AtxCharacter character in characters)
+            {
+                character.Invalidate();
+            }
+        }
+
+        private void BtnToggleSelect_Click(object sender, EventArgs e)
+        {
+            foreach (AtxCharacter character in characters)
+            {
+                character.Selected = !character.Selected;
+            }
+        }
+
+        private void BtnLockSelected_Click(object sender, EventArgs e)
+        {
+            foreach (AtxCharacter character in characters)
+            {
+                if (character.Selected)
                 {
-                    character.MovePixels((AtxCharacter.Direction)Convert.ToInt32(((Button)sender).Tag!));
+                    character.Locked = !character.Locked;
                 }
             }
         }
 
-        private void AtxFont_Load(object sender, EventArgs e)
+        private void BtnMove_Click(object sender, EventArgs e)
         {
-
-        }
-
-        private void BtnSelectNone_Click(object sender, EventArgs e)
-        {
-            foreach (AtxCharacter character in Characters)
+            Button button = (Button)sender;
+            AtxCharacter.Direction direction = (AtxCharacter.Direction?)button.Tag ?? AtxCharacter.Direction.Up;
+            foreach (AtxCharacter character in characters)
             {
-                if (character.Mode != AtxCharacter.CharacterMode.Lock)
+                if (character.Selected)
                 {
-                    character.Mode = AtxCharacter.CharacterMode.Edit;
+                    character.MovePixels(direction);
                 }
             }
         }
