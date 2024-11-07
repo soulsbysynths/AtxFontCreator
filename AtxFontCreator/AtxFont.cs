@@ -314,7 +314,7 @@ namespace AtxFontCreator
 
         private void BtnClear_Click(object sender, EventArgs e)
         {
-            if(MessageBox.Show("Are you sure you want to clear the selected characters?", "Clear Selected Characters" ,MessageBoxButtons.YesNo,MessageBoxIcon.Question) == DialogResult.No)
+            if (MessageBox.Show("Are you sure you want to clear the selected characters?", "Clear Selected Characters", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
             {
                 return;
             }
@@ -377,6 +377,16 @@ namespace AtxFontCreator
                     character.MovePixels(direction);
                 }
             }
+        }
+
+        private void AtxFont_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnClear_Click_1(object sender, EventArgs e)
+        {
+
         }
     }
 }

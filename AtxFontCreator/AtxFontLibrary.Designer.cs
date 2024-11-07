@@ -44,8 +44,8 @@
             // splitContainer1.Panel1
             // 
             splitContainer1.Panel1.Controls.Add(lstAtxFontLibrary);
-            splitContainer1.Size = new Size(1188, 611);
-            splitContainer1.SplitterDistance = 307;
+            splitContainer1.Size = new Size(1002, 625);
+            splitContainer1.SplitterDistance = 258;
             splitContainer1.TabIndex = 2;
             // 
             // lstAtxFontLibrary
@@ -56,7 +56,7 @@
             lstAtxFontLibrary.Location = new Point(0, 0);
             lstAtxFontLibrary.Name = "lstAtxFontLibrary";
             lstAtxFontLibrary.ScrollAlwaysVisible = true;
-            lstAtxFontLibrary.Size = new Size(307, 611);
+            lstAtxFontLibrary.Size = new Size(258, 625);
             lstAtxFontLibrary.TabIndex = 2;
             lstAtxFontLibrary.SelectedIndexChanged += LstAtxFontLibrary_SelectedIndexChanged;
             // 
@@ -64,7 +64,7 @@
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1188, 611);
+            ClientSize = new Size(1002, 625);
             Controls.Add(splitContainer1);
             MinimizeBox = false;
             Name = "AtxFontLibrary";
