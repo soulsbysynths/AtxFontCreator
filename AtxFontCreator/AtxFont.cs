@@ -378,15 +378,5 @@ namespace AtxFontCreator
                 }
             }
         }
-
-        private void AtxFont_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void btnClear_Click_1(object sender, EventArgs e)
-        {
-
-        }
     }
 }

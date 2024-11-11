@@ -120,6 +120,7 @@
             tbZoom.TabIndex = 19;
             tbZoom.TickFrequency = 16;
             tbZoom.Value = 96;
+            tbZoom.Scroll += TbZoom_Scroll;
             // 
             // grpEdit
             // 
@@ -147,6 +148,7 @@
             rdoLock.Tag = "2";
             rdoLock.Text = "Lock";
             rdoLock.UseVisualStyleBackColor = true;
+            rdoLock.Click += RdoMode_Click;
             // 
             // rdoSelect
             // 
@@ -159,6 +161,7 @@
             rdoSelect.Tag = "1";
             rdoSelect.Text = "Select";
             rdoSelect.UseVisualStyleBackColor = true;
+            rdoSelect.Click += RdoMode_Click;
             // 
             // rdoEdit
             // 
@@ -173,6 +176,7 @@
             rdoEdit.Tag = "0";
             rdoEdit.Text = "Edit";
             rdoEdit.UseVisualStyleBackColor = true;
+            rdoEdit.Click += RdoMode_Click;
             // 
             // groupBox1
             // 
@@ -198,7 +202,7 @@
             btnLockSelected.TabIndex = 19;
             btnLockSelected.Text = "Lock";
             btnLockSelected.UseVisualStyleBackColor = true;
-            btnLockSelected.Click += this.BtnLockSelected_Click;
+            btnLockSelected.Click += BtnLockSelected_Click;
             // 
             // btnClear
             // 
@@ -224,7 +228,7 @@
             btnToggleSelect.TabIndex = 17;
             btnToggleSelect.Text = "Toggle";
             btnToggleSelect.UseVisualStyleBackColor = true;
-            btnToggleSelect.Click += this.BtnToggleSelect_Click;
+            btnToggleSelect.Click += BtnToggleSelect_Click;
             // 
             // grpMove
             // 
@@ -323,6 +327,7 @@
             numCharacterCount.Name = "numCharacterCount";
             numCharacterCount.Size = new Size(60, 31);
             numCharacterCount.TabIndex = 15;
+            numCharacterCount.ValueChanged += NumCharacterCount_ValueChanged;
             // 
             // label5
             // 
@@ -352,6 +357,7 @@
             numStartCharacter.Name = "numStartCharacter";
             numStartCharacter.Size = new Size(60, 31);
             numStartCharacter.TabIndex = 12;
+            numStartCharacter.ValueChanged += NumStartCharacter_ValueChanged;
             // 
             // label4
             // 
@@ -371,6 +377,7 @@
             numHeight.Name = "numHeight";
             numHeight.Size = new Size(60, 31);
             numHeight.TabIndex = 10;
+            numHeight.ValueChanged += NumHeight_ValueChanged;
             // 
             // numWidth
             // 
@@ -380,6 +387,7 @@
             numWidth.Name = "numWidth";
             numWidth.Size = new Size(60, 31);
             numWidth.TabIndex = 9;
+            numWidth.ValueChanged += NumWidth_ValueChanged;
             // 
             // label3
             // 
@@ -408,6 +416,7 @@
             txtFontName.Name = "txtFontName";
             txtFontName.Size = new Size(204, 31);
             txtFontName.TabIndex = 4;
+            txtFontName.TextChanged += TxtFontName_TextChanged;
             // 
             // label1
             // 
@@ -439,7 +448,6 @@
             Margin = new Padding(4, 5, 4, 5);
             Name = "AtxFont";
             Size = new Size(1345, 681);
-            Load += AtxFont_Load;
             Resize += AtxFont_Resize;
             splitContainer1.Panel1.ResumeLayout(false);
             splitContainer1.Panel2.ResumeLayout(false);

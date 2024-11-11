@@ -44,13 +44,15 @@
             saveFileDialog1 = new SaveFileDialog();
             openFileDialog1 = new OpenFileDialog();
             folderBrowserDialog1 = new FolderBrowserDialog();
+            editToolStripMenuItem = new ToolStripMenuItem();
+            copyFromSystemFontToolStripMenuItem = new ToolStripMenuItem();
             menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
             // menuStrip1
             // 
             menuStrip1.ImageScalingSize = new Size(24, 24);
-            menuStrip1.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem, windowToolStripMenuItem });
+            menuStrip1.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem, editToolStripMenuItem, windowToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
             menuStrip1.Padding = new Padding(9, 3, 0, 3);
@@ -68,35 +70,35 @@
             // newToolStripMenuItem
             // 
             newToolStripMenuItem.Name = "newToolStripMenuItem";
-            newToolStripMenuItem.Size = new Size(226, 34);
-            newToolStripMenuItem.Text = "New ATX Font";
+            newToolStripMenuItem.Size = new Size(270, 34);
+            newToolStripMenuItem.Text = "New";
             newToolStripMenuItem.Click += NewToolStripMenuItem_Click;
             // 
             // importToolStripMenuItem
             // 
             importToolStripMenuItem.Name = "importToolStripMenuItem";
-            importToolStripMenuItem.Size = new Size(226, 34);
+            importToolStripMenuItem.Size = new Size(270, 34);
             importToolStripMenuItem.Text = "Import...";
             importToolStripMenuItem.Click += ImportToolStripMenuItem_Click;
             // 
             // exportToolStripMenuItem
             // 
             exportToolStripMenuItem.Name = "exportToolStripMenuItem";
-            exportToolStripMenuItem.Size = new Size(226, 34);
+            exportToolStripMenuItem.Size = new Size(270, 34);
             exportToolStripMenuItem.Text = "Export...";
             exportToolStripMenuItem.Click += ExportToolStripMenuItem_Click;
             // 
             // libraryToolStripMenuItem
             // 
             libraryToolStripMenuItem.Name = "libraryToolStripMenuItem";
-            libraryToolStripMenuItem.Size = new Size(226, 34);
+            libraryToolStripMenuItem.Size = new Size(270, 34);
             libraryToolStripMenuItem.Text = "Library...";
             libraryToolStripMenuItem.Click += LibraryToolStripMenuItem_Click;
             // 
             // exitToolStripMenuItem
             // 
             exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            exitToolStripMenuItem.Size = new Size(226, 34);
+            exitToolStripMenuItem.Size = new Size(270, 34);
             exitToolStripMenuItem.Text = "Exit";
             exitToolStripMenuItem.Click += ExitToolStripMenuItem_Click;
             // 
@@ -139,6 +141,20 @@
             openFileDialog1.Filter = "Header files|*.h";
             openFileDialog1.FileOk += OpenFileDialog1_FileOk;
             // 
+            // editToolStripMenuItem
+            // 
+            editToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { copyFromSystemFontToolStripMenuItem });
+            editToolStripMenuItem.Name = "editToolStripMenuItem";
+            editToolStripMenuItem.Size = new Size(58, 29);
+            editToolStripMenuItem.Text = "Edit";
+            // 
+            // copyFromSystemFontToolStripMenuItem
+            // 
+            copyFromSystemFontToolStripMenuItem.Name = "copyFromSystemFontToolStripMenuItem";
+            copyFromSystemFontToolStripMenuItem.Size = new Size(306, 34);
+            copyFromSystemFontToolStripMenuItem.Text = "Copy From System Font";
+            copyFromSystemFontToolStripMenuItem.Click += CopyFromSystemFontToolStripMenuItem_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
@@ -173,5 +189,7 @@
         private ToolStripMenuItem imageEditorToolStripMenuItem;
         private ToolStripMenuItem previewScreenToolStripMenuItem;
         private ToolStripMenuItem newToolStripMenuItem;
+        private ToolStripMenuItem editToolStripMenuItem;
+        private ToolStripMenuItem copyFromSystemFontToolStripMenuItem;
     }
 }

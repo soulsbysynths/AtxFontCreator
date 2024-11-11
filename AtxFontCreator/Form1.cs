@@ -10,7 +10,7 @@ namespace AtxFontCreator
         public Form1()
         {
             InitializeComponent();
-            GetAtxFontLibrary();
+            AtxFontLibrary.Focus();
         }
 
         private void ImportToolStripMenuItem_Click(object sender, EventArgs e)
@@ -21,7 +21,7 @@ namespace AtxFontCreator
                 return;
             }
 
-            GetAtxFontLibrary().ImportFont(openFileDialog1.FileName);
+            AtxFontLibrary.ImportFont(openFileDialog1.FileName);
         }
 
         private void ExportToolStripMenuItem_Click(object sender, EventArgs e)
@@ -32,7 +32,7 @@ namespace AtxFontCreator
                 return;
             }
 
-            GetAtxFontLibrary().ExportFont(saveFileDialog1.FileName);
+           AtxFontLibrary.ExportFont(saveFileDialog1.FileName);
         }
 
         private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -59,55 +59,72 @@ namespace AtxFontCreator
 
         private void NewToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            GetAtxFontLibrary().AddNewFont();
+            AtxFontLibrary.AddNewFont();
         }
 
         private void LibraryToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            GetAtxFontLibrary();
+            AtxFontLibrary.Focus();
         }
 
-        AtxFontLibrary GetAtxFontLibrary()
+        public AtxFontLibrary AtxFontLibrary
         {
-            AtxFontLibrary? fontLibrary = null;
-            foreach (Form f in this.MdiChildren)
+            get 
             {
-                if (f is AtxFontLibrary)
+                AtxFontLibrary? fontLibrary = null;
+                foreach (Form f in this.MdiChildren)
                 {
-                    fontLibrary = f as AtxFontLibrary;
-                    break;
+                    if (f is AtxFontLibrary)
+                    {
+                        fontLibrary = f as AtxFontLibrary;
+                        break;
+                    }
                 }
-            }
 
-            fontLibrary ??= new AtxFontLibrary();    
-            fontLibrary.MdiParent = this;
-            fontLibrary.Show();
-            fontLibrary.Focus();
-            return fontLibrary;
+                fontLibrary ??= new AtxFontLibrary();
+                fontLibrary.MdiParent = this;
+                return fontLibrary;
+            }
         }
 
-        FontEditor GetFontEditor()
+        public FontEditor FontEditor
         {
-            FontEditor? fontEditor = null;
-            foreach (Form f in this.MdiChildren)
+            get
             {
-                if (f is FontEditor)
+                FontEditor? fontEditor = null;
+                foreach (Form f in this.MdiChildren)
                 {
-                    fontEditor = f as FontEditor;
-                    break;
+                    if (f is FontEditor)
+                    {
+                        fontEditor = f as FontEditor;
+                        break;
+                    }
                 }
-            }
 
-            fontEditor ??= new FontEditor();    
-            fontEditor.MdiParent = this;
-            fontEditor.Show();
-            fontEditor.Focus(); 
-            return fontEditor;
+                fontEditor ??= new FontEditor();
+                fontEditor.MdiParent = this;
+                return fontEditor;
+            }
         }
+
 
         private void SystemFontEditorToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            GetFontEditor();
+            FontEditor.Focus();
+        }
+
+        private void CopyFromSystemFontToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (FontEditor.Dimensions != AtxFontLibrary.CurrentFont.Dimensions)
+            {
+                if (MessageBox.Show("ATX font and system font dimensions do not match. Set system font to ATX font dimensions?", "Copy System Font To ATX Font", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
+                {
+                    FontEditor.Dimensions = AtxFontLibrary.CurrentFont.Dimensions;
+                }
+            }
+
+            FontEditor.CopyToAtxFont(ref AtxFontLibrary.CurrentFont);
+            AtxFontLibrary.Focus();
         }
     }
 }

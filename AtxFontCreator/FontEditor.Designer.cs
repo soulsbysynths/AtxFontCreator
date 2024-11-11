@@ -31,6 +31,10 @@
             lblFont = new Label();
             fontDialog1 = new FontDialog();
             splitContainer1 = new SplitContainer();
+            groupBox2 = new GroupBox();
+            numHeight = new NumericUpDown();
+            numWidth = new NumericUpDown();
+            label3 = new Label();
             groupBox1 = new GroupBox();
             chkIncludeNumbers = new CheckBox();
             chkIncludeMisc = new CheckBox();
@@ -38,18 +42,14 @@
             chkIncludeCharacters = new CheckBox();
             btnFont = new Button();
             flpFontConverter = new FlowLayoutPanel();
-            groupBox2 = new GroupBox();
-            numHeight = new NumericUpDown();
-            numWidth = new NumericUpDown();
-            label3 = new Label();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
             splitContainer1.Panel1.SuspendLayout();
             splitContainer1.Panel2.SuspendLayout();
             splitContainer1.SuspendLayout();
-            groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)numHeight).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numWidth).BeginInit();
+            groupBox1.SuspendLayout();
             SuspendLayout();
             // 
             // lblFont
@@ -82,6 +82,51 @@
             splitContainer1.Size = new Size(1368, 710);
             splitContainer1.SplitterDistance = 92;
             splitContainer1.TabIndex = 9;
+            // 
+            // groupBox2
+            // 
+            groupBox2.Controls.Add(numHeight);
+            groupBox2.Controls.Add(numWidth);
+            groupBox2.Controls.Add(label3);
+            groupBox2.Dock = DockStyle.Left;
+            groupBox2.Location = new Point(559, 6);
+            groupBox2.Name = "groupBox2";
+            groupBox2.Size = new Size(175, 80);
+            groupBox2.TabIndex = 7;
+            groupBox2.TabStop = false;
+            groupBox2.Text = "Dimensions";
+            // 
+            // numHeight
+            // 
+            numHeight.Location = new Point(103, 31);
+            numHeight.Margin = new Padding(4, 5, 4, 5);
+            numHeight.Maximum = new decimal(new int[] { 255, 0, 0, 0 });
+            numHeight.Name = "numHeight";
+            numHeight.Size = new Size(60, 31);
+            numHeight.TabIndex = 9;
+            numHeight.Value = new decimal(new int[] { 16, 0, 0, 0 });
+            numHeight.ValueChanged += NumHeight_ValueChanged;
+            // 
+            // numWidth
+            // 
+            numWidth.Location = new Point(7, 31);
+            numWidth.Margin = new Padding(4, 5, 4, 5);
+            numWidth.Maximum = new decimal(new int[] { 255, 0, 0, 0 });
+            numWidth.Name = "numWidth";
+            numWidth.Size = new Size(60, 31);
+            numWidth.TabIndex = 8;
+            numWidth.Value = new decimal(new int[] { 8, 0, 0, 0 });
+            numWidth.ValueChanged += NumWidth_ValueChanged;
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Location = new Point(75, 36);
+            label3.Margin = new Padding(4, 0, 4, 0);
+            label3.Name = "label3";
+            label3.Size = new Size(20, 25);
+            label3.TabIndex = 7;
+            label3.Text = "x";
             // 
             // groupBox1
             // 
@@ -170,47 +215,6 @@
             flpFontConverter.Size = new Size(1368, 614);
             flpFontConverter.TabIndex = 8;
             // 
-            // groupBox2
-            // 
-            groupBox2.Controls.Add(numHeight);
-            groupBox2.Controls.Add(numWidth);
-            groupBox2.Controls.Add(label3);
-            groupBox2.Dock = DockStyle.Left;
-            groupBox2.Location = new Point(559, 6);
-            groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(175, 80);
-            groupBox2.TabIndex = 7;
-            groupBox2.TabStop = false;
-            groupBox2.Text = "Dimensions";
-            // 
-            // numHeight
-            // 
-            numHeight.Location = new Point(103, 31);
-            numHeight.Margin = new Padding(4, 5, 4, 5);
-            numHeight.Maximum = new decimal(new int[] { 255, 0, 0, 0 });
-            numHeight.Name = "numHeight";
-            numHeight.Size = new Size(60, 31);
-            numHeight.TabIndex = 9;
-            // 
-            // numWidth
-            // 
-            numWidth.Location = new Point(7, 31);
-            numWidth.Margin = new Padding(4, 5, 4, 5);
-            numWidth.Maximum = new decimal(new int[] { 255, 0, 0, 0 });
-            numWidth.Name = "numWidth";
-            numWidth.Size = new Size(60, 31);
-            numWidth.TabIndex = 8;
-            // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.Location = new Point(75, 36);
-            label3.Margin = new Padding(4, 0, 4, 0);
-            label3.Name = "label3";
-            label3.Size = new Size(20, 25);
-            label3.TabIndex = 7;
-            label3.Text = "x";
-            // 
             // FontEditor
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
@@ -224,12 +228,12 @@
             splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
             splitContainer1.ResumeLayout(false);
-            groupBox1.ResumeLayout(false);
-            groupBox1.PerformLayout();
             groupBox2.ResumeLayout(false);
             groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)numHeight).EndInit();
             ((System.ComponentModel.ISupportInitialize)numWidth).EndInit();
+            groupBox1.ResumeLayout(false);
+            groupBox1.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }

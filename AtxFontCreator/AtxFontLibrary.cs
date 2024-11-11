@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -63,6 +64,15 @@ namespace AtxFontCreator
 
             AtxFontHeaderParser.ExportHeader(writer, lstAtxFontLibrary.SelectedItem as AtxFont ?? new AtxFont());
             writer.Close();
+        }
+
+        public ref AtxFont CurrentFont
+        {
+            get 
+            {
+                Span<AtxFont> span = CollectionsMarshal.AsSpan(fonts);
+                return ref span[lstAtxFontLibrary.SelectedIndex]; 
+            }
         }
 
         private void LstAtxFontLibrary_SelectedIndexChanged(object sender, EventArgs e)

@@ -46,6 +46,8 @@ namespace AtxFontCreator
                 }
 
                 dimensions = value;
+                numWidth.Value = dimensions.Width;
+                numHeight.Value = dimensions.Height;
                 BuildFont();
             }
         }
@@ -153,6 +155,17 @@ namespace AtxFontCreator
 
             SetIncludeCharacters(newInclude);
         }
+
+        private void NumWidth_ValueChanged(object sender, EventArgs e)
+        {
+            Dimensions = new Size((int)numWidth.Value, dimensions.Height);
+        }
+
+        private void NumHeight_ValueChanged(object sender, EventArgs e)
+        {
+            Dimensions = new Size(dimensions.Width, (int)numHeight.Value);
+        }
+
         public void BuildFont()
         {
             // Build font
