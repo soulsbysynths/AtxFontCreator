@@ -77,6 +77,7 @@
             // 
             splitContainer1.Dock = DockStyle.Fill;
             splitContainer1.Location = new Point(0, 0);
+            splitContainer1.Margin = new Padding(2);
             splitContainer1.Name = "splitContainer1";
             splitContainer1.Orientation = Orientation.Horizontal;
             // 
@@ -91,18 +92,20 @@
             // splitContainer1.Panel2
             // 
             splitContainer1.Panel2.Controls.Add(flpCharacters);
-            splitContainer1.Panel2MinSize = 600;
-            splitContainer1.Size = new Size(1345, 681);
-            splitContainer1.SplitterDistance = 177;
+            splitContainer1.Size = new Size(942, 409);
+            splitContainer1.SplitterDistance = 110;
+            splitContainer1.SplitterWidth = 2;
             splitContainer1.TabIndex = 22;
             // 
             // groupBox3
             // 
             groupBox3.Controls.Add(tbZoom);
             groupBox3.Dock = DockStyle.Left;
-            groupBox3.Location = new Point(612, 0);
+            groupBox3.Location = new Point(428, 0);
+            groupBox3.Margin = new Padding(2);
             groupBox3.Name = "groupBox3";
-            groupBox3.Size = new Size(123, 177);
+            groupBox3.Padding = new Padding(2);
+            groupBox3.Size = new Size(86, 110);
             groupBox3.TabIndex = 26;
             groupBox3.TabStop = false;
             groupBox3.Text = "Zoom";
@@ -111,11 +114,12 @@
             // 
             tbZoom.Dock = DockStyle.Fill;
             tbZoom.LargeChange = 16;
-            tbZoom.Location = new Point(3, 27);
+            tbZoom.Location = new Point(2, 18);
+            tbZoom.Margin = new Padding(2);
             tbZoom.Maximum = 256;
             tbZoom.Minimum = 32;
             tbZoom.Name = "tbZoom";
-            tbZoom.Size = new Size(117, 147);
+            tbZoom.Size = new Size(82, 90);
             tbZoom.SmallChange = 16;
             tbZoom.TabIndex = 19;
             tbZoom.TickFrequency = 16;
@@ -128,11 +132,9 @@
             grpEdit.Controls.Add(rdoSelect);
             grpEdit.Controls.Add(rdoEdit);
             grpEdit.Dock = DockStyle.Left;
-            grpEdit.Location = new Point(496, 0);
-            grpEdit.Margin = new Padding(4, 5, 4, 5);
+            grpEdit.Location = new Point(347, 0);
             grpEdit.Name = "grpEdit";
-            grpEdit.Padding = new Padding(4, 5, 4, 5);
-            grpEdit.Size = new Size(116, 177);
+            grpEdit.Size = new Size(81, 110);
             grpEdit.TabIndex = 25;
             grpEdit.TabStop = false;
             grpEdit.Text = "Edit Mode";
@@ -140,10 +142,9 @@
             // rdoLock
             // 
             rdoLock.AutoSize = true;
-            rdoLock.Location = new Point(10, 122);
-            rdoLock.Margin = new Padding(4, 5, 4, 5);
+            rdoLock.Location = new Point(7, 73);
             rdoLock.Name = "rdoLock";
-            rdoLock.Size = new Size(73, 29);
+            rdoLock.Size = new Size(50, 19);
             rdoLock.TabIndex = 2;
             rdoLock.Tag = "2";
             rdoLock.Text = "Lock";
@@ -153,10 +154,9 @@
             // rdoSelect
             // 
             rdoSelect.AutoSize = true;
-            rdoSelect.Location = new Point(10, 83);
-            rdoSelect.Margin = new Padding(4, 5, 4, 5);
+            rdoSelect.Location = new Point(7, 50);
             rdoSelect.Name = "rdoSelect";
-            rdoSelect.Size = new Size(83, 29);
+            rdoSelect.Size = new Size(56, 19);
             rdoSelect.TabIndex = 1;
             rdoSelect.Tag = "1";
             rdoSelect.Text = "Select";
@@ -167,10 +167,9 @@
             // 
             rdoEdit.AutoSize = true;
             rdoEdit.Checked = true;
-            rdoEdit.Location = new Point(10, 44);
-            rdoEdit.Margin = new Padding(4, 5, 4, 5);
+            rdoEdit.Location = new Point(7, 26);
             rdoEdit.Name = "rdoEdit";
-            rdoEdit.Size = new Size(67, 29);
+            rdoEdit.Size = new Size(45, 19);
             rdoEdit.TabIndex = 0;
             rdoEdit.TabStop = true;
             rdoEdit.Tag = "0";
@@ -184,9 +183,11 @@
             groupBox1.Controls.Add(btnClear);
             groupBox1.Controls.Add(btnToggleSelect);
             groupBox1.Dock = DockStyle.Left;
-            groupBox1.Location = new Point(386, 0);
+            groupBox1.Location = new Point(270, 0);
+            groupBox1.Margin = new Padding(2);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(110, 177);
+            groupBox1.Padding = new Padding(2);
+            groupBox1.Size = new Size(77, 110);
             groupBox1.TabIndex = 24;
             groupBox1.TabStop = false;
             groupBox1.Text = "Selected";
@@ -195,10 +196,9 @@
             // 
             btnLockSelected.AutoSize = true;
             btnLockSelected.Font = new Font("Segoe UI", 9F);
-            btnLockSelected.Location = new Point(7, 82);
-            btnLockSelected.Margin = new Padding(4, 5, 4, 5);
+            btnLockSelected.Location = new Point(5, 49);
             btnLockSelected.Name = "btnLockSelected";
-            btnLockSelected.Size = new Size(94, 43);
+            btnLockSelected.Size = new Size(66, 26);
             btnLockSelected.TabIndex = 19;
             btnLockSelected.Text = "Lock";
             btnLockSelected.UseVisualStyleBackColor = true;
@@ -208,10 +208,9 @@
             // 
             btnClear.AutoSize = true;
             btnClear.Font = new Font("Segoe UI", 9F);
-            btnClear.Location = new Point(9, 127);
-            btnClear.Margin = new Padding(4, 5, 4, 5);
+            btnClear.Location = new Point(6, 76);
             btnClear.Name = "btnClear";
-            btnClear.Size = new Size(94, 43);
+            btnClear.Size = new Size(66, 26);
             btnClear.TabIndex = 18;
             btnClear.Text = "Clear";
             btnClear.UseVisualStyleBackColor = true;
@@ -221,10 +220,9 @@
             // 
             btnToggleSelect.AutoSize = true;
             btnToggleSelect.Font = new Font("Segoe UI", 9F);
-            btnToggleSelect.Location = new Point(7, 37);
-            btnToggleSelect.Margin = new Padding(4, 5, 4, 5);
+            btnToggleSelect.Location = new Point(5, 22);
             btnToggleSelect.Name = "btnToggleSelect";
-            btnToggleSelect.Size = new Size(96, 43);
+            btnToggleSelect.Size = new Size(67, 26);
             btnToggleSelect.TabIndex = 17;
             btnToggleSelect.Text = "Toggle";
             btnToggleSelect.UseVisualStyleBackColor = true;
@@ -237,11 +235,9 @@
             grpMove.Controls.Add(btnMoveRight);
             grpMove.Controls.Add(btnMoveLeft);
             grpMove.Dock = DockStyle.Left;
-            grpMove.Location = new Point(291, 0);
-            grpMove.Margin = new Padding(4, 5, 4, 5);
+            grpMove.Location = new Point(204, 0);
             grpMove.Name = "grpMove";
-            grpMove.Padding = new Padding(4, 5, 4, 5);
-            grpMove.Size = new Size(95, 177);
+            grpMove.Size = new Size(66, 110);
             grpMove.TabIndex = 23;
             grpMove.TabStop = false;
             grpMove.Text = "Move";
@@ -249,10 +245,9 @@
             // btnMoveDown
             // 
             btnMoveDown.Font = new Font("Webdings", 9F, FontStyle.Regular, GraphicsUnit.Point, 2);
-            btnMoveDown.Location = new Point(54, 90);
-            btnMoveDown.Margin = new Padding(4, 5, 4, 5);
+            btnMoveDown.Location = new Point(38, 54);
             btnMoveDown.Name = "btnMoveDown";
-            btnMoveDown.Size = new Size(37, 43);
+            btnMoveDown.Size = new Size(26, 26);
             btnMoveDown.TabIndex = 3;
             btnMoveDown.Tag = "3";
             btnMoveDown.Text = "6";
@@ -262,10 +257,9 @@
             // btnMoveUp
             // 
             btnMoveUp.Font = new Font("Webdings", 9F, FontStyle.Regular, GraphicsUnit.Point, 2);
-            btnMoveUp.Location = new Point(9, 90);
-            btnMoveUp.Margin = new Padding(4, 5, 4, 5);
+            btnMoveUp.Location = new Point(6, 54);
             btnMoveUp.Name = "btnMoveUp";
-            btnMoveUp.Size = new Size(37, 43);
+            btnMoveUp.Size = new Size(26, 26);
             btnMoveUp.TabIndex = 2;
             btnMoveUp.Tag = "2";
             btnMoveUp.Text = "5";
@@ -275,10 +269,9 @@
             // btnMoveRight
             // 
             btnMoveRight.Font = new Font("Webdings", 9F, FontStyle.Regular, GraphicsUnit.Point, 2);
-            btnMoveRight.Location = new Point(54, 37);
-            btnMoveRight.Margin = new Padding(4, 5, 4, 5);
+            btnMoveRight.Location = new Point(38, 22);
             btnMoveRight.Name = "btnMoveRight";
-            btnMoveRight.Size = new Size(37, 43);
+            btnMoveRight.Size = new Size(26, 26);
             btnMoveRight.TabIndex = 1;
             btnMoveRight.Tag = "1";
             btnMoveRight.Text = "4";
@@ -288,10 +281,9 @@
             // btnMoveLeft
             // 
             btnMoveLeft.Font = new Font("Webdings", 9F, FontStyle.Regular, GraphicsUnit.Point, 2);
-            btnMoveLeft.Location = new Point(9, 37);
-            btnMoveLeft.Margin = new Padding(4, 5, 4, 5);
+            btnMoveLeft.Location = new Point(6, 22);
             btnMoveLeft.Name = "btnMoveLeft";
-            btnMoveLeft.Size = new Size(37, 43);
+            btnMoveLeft.Size = new Size(26, 26);
             btnMoveLeft.TabIndex = 0;
             btnMoveLeft.Tag = "0";
             btnMoveLeft.Text = "3";
@@ -313,118 +305,113 @@
             groupBox2.Controls.Add(label1);
             groupBox2.Dock = DockStyle.Left;
             groupBox2.Location = new Point(0, 0);
+            groupBox2.Margin = new Padding(2);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(291, 177);
+            groupBox2.Padding = new Padding(2);
+            groupBox2.Size = new Size(204, 110);
             groupBox2.TabIndex = 22;
             groupBox2.TabStop = false;
             groupBox2.Text = "Font";
             // 
             // numCharacterCount
             // 
-            numCharacterCount.Location = new Point(154, 139);
-            numCharacterCount.Margin = new Padding(4, 5, 4, 5);
+            numCharacterCount.Location = new Point(108, 83);
             numCharacterCount.Maximum = new decimal(new int[] { 255, 0, 0, 0 });
             numCharacterCount.Name = "numCharacterCount";
-            numCharacterCount.Size = new Size(60, 31);
+            numCharacterCount.Size = new Size(42, 23);
             numCharacterCount.TabIndex = 15;
             numCharacterCount.ValueChanged += NumCharacterCount_ValueChanged;
             // 
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(7, 142);
-            label5.Margin = new Padding(4, 5, 4, 5);
+            label5.Location = new Point(5, 85);
+            label5.Margin = new Padding(3);
             label5.Name = "label5";
-            label5.Size = new Size(143, 25);
+            label5.Size = new Size(97, 15);
             label5.TabIndex = 14;
             label5.Text = "Character Count:";
             // 
             // lblStartCharacter
             // 
             lblStartCharacter.BorderStyle = BorderStyle.FixedSingle;
-            lblStartCharacter.Location = new Point(210, 101);
-            lblStartCharacter.Margin = new Padding(4, 0, 4, 0);
+            lblStartCharacter.Location = new Point(147, 61);
             lblStartCharacter.Name = "lblStartCharacter";
-            lblStartCharacter.Size = new Size(38, 31);
+            lblStartCharacter.Size = new Size(27, 19);
             lblStartCharacter.TabIndex = 13;
             lblStartCharacter.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // numStartCharacter
             // 
-            numStartCharacter.Location = new Point(141, 101);
-            numStartCharacter.Margin = new Padding(4, 5, 4, 5);
+            numStartCharacter.Location = new Point(99, 61);
             numStartCharacter.Maximum = new decimal(new int[] { 255, 0, 0, 0 });
             numStartCharacter.Name = "numStartCharacter";
-            numStartCharacter.Size = new Size(60, 31);
+            numStartCharacter.Size = new Size(42, 23);
             numStartCharacter.TabIndex = 12;
             numStartCharacter.ValueChanged += NumStartCharacter_ValueChanged;
             // 
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(7, 104);
-            label4.Margin = new Padding(4, 5, 4, 5);
+            label4.Location = new Point(5, 62);
+            label4.Margin = new Padding(3);
             label4.Name = "label4";
-            label4.Size = new Size(131, 25);
+            label4.Size = new Size(88, 15);
             label4.TabIndex = 11;
             label4.Text = "Start Character:";
             // 
             // numHeight
             // 
-            numHeight.Location = new Point(220, 63);
-            numHeight.Margin = new Padding(4, 5, 4, 5);
+            numHeight.Location = new Point(154, 38);
             numHeight.Maximum = new decimal(new int[] { 255, 0, 0, 0 });
             numHeight.Name = "numHeight";
-            numHeight.Size = new Size(60, 31);
+            numHeight.Size = new Size(42, 23);
             numHeight.TabIndex = 10;
             numHeight.ValueChanged += NumHeight_ValueChanged;
             // 
             // numWidth
             // 
-            numWidth.Location = new Point(124, 63);
-            numWidth.Margin = new Padding(4, 5, 4, 5);
+            numWidth.Location = new Point(87, 38);
             numWidth.Maximum = new decimal(new int[] { 255, 0, 0, 0 });
             numWidth.Name = "numWidth";
-            numWidth.Size = new Size(60, 31);
+            numWidth.Size = new Size(42, 23);
             numWidth.TabIndex = 9;
             numWidth.ValueChanged += NumWidth_ValueChanged;
             // 
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(192, 66);
-            label3.Margin = new Padding(4, 0, 4, 0);
+            label3.Location = new Point(134, 40);
             label3.Name = "label3";
-            label3.Size = new Size(20, 25);
+            label3.Size = new Size(13, 15);
             label3.TabIndex = 8;
             label3.Text = "x";
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(7, 66);
-            label2.Margin = new Padding(4, 5, 4, 5);
+            label2.Location = new Point(5, 40);
+            label2.Margin = new Padding(3);
             label2.Name = "label2";
-            label2.Size = new Size(109, 25);
+            label2.Size = new Size(57, 15);
             label2.TabIndex = 7;
-            label2.Text = "Dimensions:";
+            label2.Text = "Pixel size:";
             // 
             // txtFontName
             // 
-            txtFontName.Location = new Point(76, 22);
-            txtFontName.Margin = new Padding(4, 5, 4, 5);
+            txtFontName.Location = new Point(53, 13);
             txtFontName.Name = "txtFontName";
-            txtFontName.Size = new Size(204, 31);
+            txtFontName.Size = new Size(144, 23);
             txtFontName.TabIndex = 4;
             txtFontName.TextChanged += TxtFontName_TextChanged;
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(7, 25);
-            label1.Margin = new Padding(4, 5, 4, 5);
+            label1.Location = new Point(5, 15);
+            label1.Margin = new Padding(3);
             label1.Name = "label1";
-            label1.Size = new Size(63, 25);
+            label1.Size = new Size(42, 15);
             label1.TabIndex = 3;
             label1.Text = "Name:";
             // 
@@ -435,19 +422,17 @@
             flpCharacters.BorderStyle = BorderStyle.Fixed3D;
             flpCharacters.Dock = DockStyle.Fill;
             flpCharacters.Location = new Point(0, 0);
-            flpCharacters.Margin = new Padding(4, 5, 4, 5);
             flpCharacters.Name = "flpCharacters";
-            flpCharacters.Size = new Size(1345, 600);
+            flpCharacters.Size = new Size(942, 297);
             flpCharacters.TabIndex = 13;
             // 
             // AtxFont
             // 
-            AutoScaleDimensions = new SizeF(10F, 25F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(splitContainer1);
-            Margin = new Padding(4, 5, 4, 5);
             Name = "AtxFont";
-            Size = new Size(1345, 681);
+            Size = new Size(942, 409);
             Resize += AtxFont_Resize;
             splitContainer1.Panel1.ResumeLayout(false);
             splitContainer1.Panel2.ResumeLayout(false);

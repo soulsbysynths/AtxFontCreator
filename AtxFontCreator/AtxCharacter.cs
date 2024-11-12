@@ -57,7 +57,7 @@ namespace AtxFontCreator
             }
         }
 
-        public Size Dimensions
+        public Size PixelSize
         {
             get
             {
@@ -84,15 +84,15 @@ namespace AtxFontCreator
 
         public Bitmap GetBitmap()
         {
-            if (Dimensions.Width == 0 || Dimensions.Height == 0)
+            if (PixelSize.Width == 0 || PixelSize.Height == 0)
             {
                 return new Bitmap(1, 1);
             }
 
-            Bitmap bmp = new(Dimensions.Width, Dimensions.Height);
-            for (int y = 0; y < Dimensions.Height; y++)
+            Bitmap bmp = new(PixelSize.Width, PixelSize.Height);
+            for (int y = 0; y < PixelSize.Height; y++)
             {
-                for (int x = 0; x < Dimensions.Width; x++)
+                for (int x = 0; x < PixelSize.Width; x++)
                 {
                     bmp.SetPixel(x, y, pixels[x, y] ? Color.White : Color.Black);
                 }
@@ -103,7 +103,7 @@ namespace AtxFontCreator
 
         public bool GetPixel(Point location)
         {
-            if (location.X < 0 || location.Y < 0 || location.X >= Dimensions.Width || location.Y >= Dimensions.Height)
+            if (location.X < 0 || location.Y < 0 || location.X >= PixelSize.Width || location.Y >= PixelSize.Height)
             {
                 return false;
             }
@@ -118,7 +118,7 @@ namespace AtxFontCreator
                 return;
             }
 
-            if (location.X < 0 || location.Y < 0 || location.X >= Dimensions.Width || location.Y >= Dimensions.Height)
+            if (location.X < 0 || location.Y < 0 || location.X >= PixelSize.Width || location.Y >= PixelSize.Height)
             {
                 return;
             }
@@ -144,22 +144,22 @@ namespace AtxFontCreator
             {
                 case Direction.Left:
                     {
-                        for (int y = 0; y < Dimensions.Height; y++)
+                        for (int y = 0; y < PixelSize.Height; y++)
                         {
-                            for (int x = 0; x < (Dimensions.Width - 1); x++)
+                            for (int x = 0; x < (PixelSize.Width - 1); x++)
                             {
                                 pixels[x, y] = pixels[x + 1, y];
                             }
 
-                            pixels[Dimensions.Width - 1, y] = false;
+                            pixels[PixelSize.Width - 1, y] = false;
                         }
                     }
                     break;
                 case Direction.Right:
                     {
-                        for (int y = 0; y < Dimensions.Height; y++)
+                        for (int y = 0; y < PixelSize.Height; y++)
                         {
-                            for (int x = (Dimensions.Width - 1); x > 0; x--)
+                            for (int x = (PixelSize.Width - 1); x > 0; x--)
                             {
                                 pixels[x, y] = pixels[x - 1, y];
                             }
@@ -170,22 +170,22 @@ namespace AtxFontCreator
                     break;
                 case Direction.Up:
                     {
-                        for (int x = 0; x < Dimensions.Width; x++)
+                        for (int x = 0; x < PixelSize.Width; x++)
                         {
-                            for (int y = 0; y < (Dimensions.Height - 1); y++)
+                            for (int y = 0; y < (PixelSize.Height - 1); y++)
                             {
                                 pixels[x, y] = pixels[x, y + 1];
                             }
 
-                            pixels[x, Dimensions.Height - 1] = false;
+                            pixels[x, PixelSize.Height - 1] = false;
                         }
                     }
                     break;
                 case Direction.Down:
                     {
-                        for (int x = 0; x < Dimensions.Width; x++)
+                        for (int x = 0; x < PixelSize.Width; x++)
                         {
-                            for (int y = (Dimensions.Height - 1); y > 0; y--)
+                            for (int y = (PixelSize.Height - 1); y > 0; y--)
                             {
                                 pixels[x, y] = pixels[x, y - 1];
                             }
@@ -206,9 +206,9 @@ namespace AtxFontCreator
                 return;
             }
 
-            for (int y = 0; y < Dimensions.Height; y++)
+            for (int y = 0; y < PixelSize.Height; y++)
             {
-                for (int x = 0; x < Dimensions.Width; x++)
+                for (int x = 0; x < PixelSize.Width; x++)
                 {
                     if (GetPixelRectF(new Point(x, y)).Contains(location))
                     {
@@ -228,9 +228,9 @@ namespace AtxFontCreator
                 return;
             }
 
-            for (int y = 0; y < Dimensions.Height; y++)
+            for (int y = 0; y < PixelSize.Height; y++)
             {
-                for (int x = 0; x < Dimensions.Width; x++)
+                for (int x = 0; x < PixelSize.Width; x++)
                 {
                     if (GetPixelRectF(new Point(x, y)).Contains(location))
                     {
@@ -248,9 +248,9 @@ namespace AtxFontCreator
 
         private void AtxCharacter_Paint(object sender, PaintEventArgs e)
         {
-            for (int y = 0; y < Dimensions.Height; y++)
+            for (int y = 0; y < PixelSize.Height; y++)
             {
-                for (int x = 0; x < Dimensions.Width; x++)
+                for (int x = 0; x < PixelSize.Width; x++)
                 {
                     RectangleF rectF = GetPixelRectF(new Point(x, y));
                     e.Graphics.FillRectangle(pixels[x, y] ? Brushes.Ivory : Brushes.DimGray, rectF);
@@ -273,12 +273,12 @@ namespace AtxFontCreator
 
         private float GetPixelHeight()
         {
-            return Dimensions.Height == 0 ? 0 : (float)Height / Dimensions.Height;
+            return PixelSize.Height == 0 ? 0 : (float)Height / PixelSize.Height;
         }
 
         private void LockWidth()
         {
-            int w = (int)(GetPixelHeight() * Dimensions.Width);
+            int w = (int)(GetPixelHeight() * PixelSize.Width);
             if (Width != w)
             {
                 Width = w;

@@ -32,9 +32,9 @@ namespace AtxFontCreator
             fonts.Add(new AtxFont()
             {
                 FontName = "newAtxFont",
-                Dimensions = new Size(8, 16),
+                PixelSize = new Size(8, 16),
                 StartCharacter = 33,
-                CharacterCount = 95
+                CharacterCount = 95,
             });
 
             lstAtxFontLibrary.DataSource = fonts;
@@ -82,12 +82,11 @@ namespace AtxFontCreator
                 return;
             }
 
-            fonts[lstAtxFontLibrary.SelectedIndex].Dock = DockStyle.Fill;
             splitContainer1.Panel2.Controls.Clear();
             splitContainer1.Panel2.Controls.Add(fonts[lstAtxFontLibrary.SelectedIndex]);
         }
 
-        private void PopulateFontLibrary()
+        public void PopulateFontLibrary()
         {
             fonts.Clear();
             string[] filePaths = Directory.GetFiles(Properties.Settings.Default.LibraryPath, "*.h");

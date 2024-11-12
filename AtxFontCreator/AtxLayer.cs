@@ -15,6 +15,7 @@ namespace AtxFontCreator
 {
     public partial class AtxLayer : UserControl
     {
+        public event EventHandler? DrawModeChanged;
         public enum LayerColour
         {
             CO_WHITE = 0,
@@ -40,13 +41,17 @@ namespace AtxFontCreator
         {
             InitializeComponent();
             LockWidth();
-            cboColour.SelectedIndex = 0;
-            cboDrawMode.SelectedIndex = 0;
         }
 
         private char[,] characters = new char[0, 0];
 
-        private AtxFont atxFont = new();
+        private AtxFont atxFont = new()
+        {
+            FontName = "newAtxFont",
+            PixelSize = new Size(8, 16),
+            StartCharacter = 33,
+            CharacterCount = 95,
+        };
 
         public AtxFont AtxFont
         {
@@ -65,14 +70,45 @@ namespace AtxFontCreator
             get { return colour; }
             set
             {
+                if (colour == value)
+                {
+                    return;
+                }
+
                 colour = value;
+                cboColour.SelectedIndex = (int)colour;
                 Invalidate();
             }
         }
 
-        public LayerDrawMode DrawMode { get; set; }
+        public int Id { get; set; }
 
-        public Size Dimensions
+        public string IdName
+        {
+            get { return "Layer" + Id.ToString(); }
+        }
+
+
+        private LayerDrawMode drawMode;
+
+        public LayerDrawMode DrawMode
+        {
+            get { return drawMode; }
+            set
+            {
+                if (value == drawMode)
+                {
+                    return;
+                }
+
+                drawMode = value;
+                cboDrawMode.SelectedIndex = (int)drawMode;
+                DrawModeChanged?.Invoke(this, EventArgs.Empty);
+            }
+        }
+
+
+        public Size CharacterSize
         {
             get
             {
@@ -92,6 +128,8 @@ namespace AtxFontCreator
                 }
 
                 characters = newCharacters;
+                numWidth.Value = characters.GetLength(0);
+                numHeight.Value = characters.GetLength(1);
                 LockWidth();
                 Invalidate();
             }
@@ -105,7 +143,7 @@ namespace AtxFontCreator
 
         public void SetCharacter(Point location, char value)
         {
-            if (location.X >= Dimensions.Width || location.Y >= Dimensions.Height)
+            if (location.X >= CharacterSize.Width || location.Y >= CharacterSize.Height)
             {
                 return;
             }
@@ -116,11 +154,22 @@ namespace AtxFontCreator
             }
 
             characters[location.X, location.Y] = value;
+            string s = String.Empty;
+            for (int y = 0; y < CharacterSize.Height; y++)
+            {
+                for (int x = 0; x < CharacterSize.Width; x++)
+                {
+                    s += characters[x, y];
+                }
 
+                s += Environment.NewLine;
+            }
+
+            txtCharacters.Text = s;
             picLayer.Invalidate();
         }
 
-        public void SetString(Point location, string value)
+        public void PrintString(Point location, string value)
         {
             Point p = new()
             {
@@ -139,7 +188,7 @@ namespace AtxFontCreator
                 p.X++;
             }
 
-            while (p.X < Dimensions.Width)
+            while (p.X < CharacterSize.Width)
             {
                 SetCharacter(p, ' ');
                 p.X++;
@@ -153,28 +202,23 @@ namespace AtxFontCreator
 
         private float GetCharacterWidth()
         {
-            return atxFont.Dimensions.Height == 0 ?
+            return atxFont.PixelSize.Height == 0 ?
                 0 : GetCharacterHeight() == 0 ?
-                0 : (GetCharacterHeight() / atxFont.Dimensions.Height) * atxFont.Dimensions.Width;
+                0 : (GetCharacterHeight() / atxFont.PixelSize.Height) * atxFont.PixelSize.Width;
         }
 
         private float GetCharacterHeight()
         {
-            return Dimensions.Height == 0 ? 0 : (float)picLayer.Height / Dimensions.Height;
-        }
-
-        private void AtxLayer_Paint(object sender, PaintEventArgs e)
-        {
-
+            return CharacterSize.Height == 0 ? 0 : (float)picLayer.Height / CharacterSize.Height;
         }
 
         private void PicLayer_Paint(object sender, PaintEventArgs e)
         {
             e.Graphics.InterpolationMode = InterpolationMode.NearestNeighbor;
             e.Graphics.PixelOffsetMode = PixelOffsetMode.Half;
-            for (int y = 0; y < Dimensions.Height; y++)
+            for (int y = 0; y < CharacterSize.Height; y++)
             {
-                for (int x = 0; x < Dimensions.Width; x++)
+                for (int x = 0; x < CharacterSize.Width; x++)
                 {
                     e.Graphics.DrawImage(atxFont.GetCharacter(characters[x, y]).GetBitmap(), GetCharacterRectF(new Point(x, y)));
                 }
@@ -183,28 +227,51 @@ namespace AtxFontCreator
 
         private void LockWidth()
         {
-            int w = (int)(GetCharacterWidth() * Dimensions.Width);
+            int w = (int)(GetCharacterWidth() * CharacterSize.Width);
             if (picLayer.Width != w)
             {
                 picLayer.Width = w;
-                Width = picLayer.Left + w + picLayer.Margin.Right;
                 picLayer.Invalidate();
             }
-        }
-
-        private void AtxLayer_Resize(object sender, EventArgs e)
-        {
-            picLayer.Height = this.Height - picLayer.Top - picLayer.Margin.Bottom;
-            LockWidth();
         }
 
         private void TxtCharacters_TextChanged(object sender, EventArgs e)
         {
             string[] lines = txtCharacters.Text.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
-            for (int i = 0; i < lines.Length; i++)
+            for (int l = 0; l < lines.Length; l++)
             {
-                SetString(new Point(0, i), lines[i]);
+                for (int c = 0; c < lines[l].Length; c++)
+                {
+                    SetCharacter(new Point(c, l), lines[l][c]);
+                }
             }
+        }
+
+        private void CboDrawMode_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ComboBox combo = (ComboBox)sender;
+            DrawMode = (LayerDrawMode)combo.SelectedIndex;
+        }
+
+        private void CboColour_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ComboBox combo = (ComboBox)sender;
+            Colour = (LayerColour)combo.SelectedIndex;
+        }
+
+        private void NumWidth_ValueChanged(object sender, EventArgs e)
+        {
+            CharacterSize = new Size((int)numWidth.Value, CharacterSize.Height);
+        }
+
+        private void NumHeight_ValueChanged(object sender, EventArgs e)
+        {
+            CharacterSize = new Size(CharacterSize.Width, (int)numHeight.Value);
+        }
+
+        private void picLayer_Resize(object sender, EventArgs e)
+        {
+            LockWidth();
         }
     }
 }

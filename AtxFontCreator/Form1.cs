@@ -32,7 +32,7 @@ namespace AtxFontCreator
                 return;
             }
 
-           AtxFontLibrary.ExportFont(saveFileDialog1.FileName);
+            AtxFontLibrary.ExportFont(saveFileDialog1.FileName);
         }
 
         private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -54,7 +54,7 @@ namespace AtxFontCreator
 
             Properties.Settings.Default.LibraryPath = folderBrowserDialog1.SelectedPath;
             Properties.Settings.Default.Save();
-            //PopulateFontLibrary();
+            AtxFontLibrary.PopulateFontLibrary();
         }
 
         private void NewToolStripMenuItem_Click(object sender, EventArgs e)
@@ -67,9 +67,29 @@ namespace AtxFontCreator
             AtxFontLibrary.Focus();
         }
 
+        public AtxScreen AtxScreen
+        {
+            get
+            {
+                AtxScreen? atxScreen = null;
+                foreach (Form f in this.MdiChildren)
+                {
+                    if (f is AtxScreen)
+                    {
+                        atxScreen = f as AtxScreen;
+                        break;
+                    }
+                }
+
+                atxScreen ??= new AtxScreen();
+                atxScreen.MdiParent = this;
+                return atxScreen;
+            }
+        }
+
         public AtxFontLibrary AtxFontLibrary
         {
-            get 
+            get
             {
                 AtxFontLibrary? fontLibrary = null;
                 foreach (Form f in this.MdiChildren)
@@ -115,16 +135,21 @@ namespace AtxFontCreator
 
         private void CopyFromSystemFontToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (FontEditor.Dimensions != AtxFontLibrary.CurrentFont.Dimensions)
+            if (FontEditor.OutputSize != AtxFontLibrary.CurrentFont.PixelSize)
             {
                 if (MessageBox.Show("ATX font and system font dimensions do not match. Set system font to ATX font dimensions?", "Copy System Font To ATX Font", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
                 {
-                    FontEditor.Dimensions = AtxFontLibrary.CurrentFont.Dimensions;
+                    FontEditor.OutputSize = AtxFontLibrary.CurrentFont.PixelSize;
                 }
             }
 
             FontEditor.CopyToAtxFont(ref AtxFontLibrary.CurrentFont);
             AtxFontLibrary.Focus();
+        }
+
+        private void PreviewScreenToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AtxScreen.Focus();
         }
     }
 }

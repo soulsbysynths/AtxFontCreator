@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FontEditor));
             lblFont = new Label();
             fontDialog1 = new FontDialog();
             splitContainer1 = new SplitContainer();
@@ -55,10 +56,9 @@
             // lblFont
             // 
             lblFont.AutoSize = true;
-            lblFont.Location = new Point(4, 80);
-            lblFont.Margin = new Padding(4, 0, 4, 0);
+            lblFont.Location = new Point(3, 48);
             lblFont.Name = "lblFont";
-            lblFont.Size = new Size(0, 25);
+            lblFont.Size = new Size(0, 15);
             lblFont.TabIndex = 8;
             lblFont.TextAlign = ContentAlignment.MiddleLeft;
             // 
@@ -66,6 +66,7 @@
             // 
             splitContainer1.Dock = DockStyle.Fill;
             splitContainer1.Location = new Point(0, 0);
+            splitContainer1.Margin = new Padding(2, 2, 2, 2);
             splitContainer1.Name = "splitContainer1";
             splitContainer1.Orientation = Orientation.Horizontal;
             // 
@@ -74,13 +75,14 @@
             splitContainer1.Panel1.Controls.Add(groupBox2);
             splitContainer1.Panel1.Controls.Add(groupBox1);
             splitContainer1.Panel1.Controls.Add(btnFont);
-            splitContainer1.Panel1.Padding = new Padding(6);
+            splitContainer1.Panel1.Padding = new Padding(4, 4, 4, 4);
             // 
             // splitContainer1.Panel2
             // 
             splitContainer1.Panel2.Controls.Add(flpFontConverter);
-            splitContainer1.Size = new Size(1368, 710);
-            splitContainer1.SplitterDistance = 92;
+            splitContainer1.Size = new Size(958, 426);
+            splitContainer1.SplitterDistance = 55;
+            splitContainer1.SplitterWidth = 2;
             splitContainer1.TabIndex = 9;
             // 
             // groupBox2
@@ -89,31 +91,31 @@
             groupBox2.Controls.Add(numWidth);
             groupBox2.Controls.Add(label3);
             groupBox2.Dock = DockStyle.Left;
-            groupBox2.Location = new Point(559, 6);
+            groupBox2.Location = new Point(391, 4);
+            groupBox2.Margin = new Padding(2, 2, 2, 2);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(175, 80);
+            groupBox2.Padding = new Padding(2, 2, 2, 2);
+            groupBox2.Size = new Size(122, 47);
             groupBox2.TabIndex = 7;
             groupBox2.TabStop = false;
-            groupBox2.Text = "Dimensions";
+            groupBox2.Text = "Output Size";
             // 
             // numHeight
             // 
-            numHeight.Location = new Point(103, 31);
-            numHeight.Margin = new Padding(4, 5, 4, 5);
+            numHeight.Location = new Point(72, 19);
             numHeight.Maximum = new decimal(new int[] { 255, 0, 0, 0 });
             numHeight.Name = "numHeight";
-            numHeight.Size = new Size(60, 31);
+            numHeight.Size = new Size(42, 23);
             numHeight.TabIndex = 9;
             numHeight.Value = new decimal(new int[] { 16, 0, 0, 0 });
             numHeight.ValueChanged += NumHeight_ValueChanged;
             // 
             // numWidth
             // 
-            numWidth.Location = new Point(7, 31);
-            numWidth.Margin = new Padding(4, 5, 4, 5);
+            numWidth.Location = new Point(5, 19);
             numWidth.Maximum = new decimal(new int[] { 255, 0, 0, 0 });
             numWidth.Name = "numWidth";
-            numWidth.Size = new Size(60, 31);
+            numWidth.Size = new Size(42, 23);
             numWidth.TabIndex = 8;
             numWidth.Value = new decimal(new int[] { 8, 0, 0, 0 });
             numWidth.ValueChanged += NumWidth_ValueChanged;
@@ -121,10 +123,9 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(75, 36);
-            label3.Margin = new Padding(4, 0, 4, 0);
+            label3.Location = new Point(52, 22);
             label3.Name = "label3";
-            label3.Size = new Size(20, 25);
+            label3.Size = new Size(13, 15);
             label3.TabIndex = 7;
             label3.Text = "x";
             // 
@@ -135,11 +136,9 @@
             groupBox1.Controls.Add(chkIncludePunctuation);
             groupBox1.Controls.Add(chkIncludeCharacters);
             groupBox1.Dock = DockStyle.Left;
-            groupBox1.Location = new Point(93, 6);
-            groupBox1.Margin = new Padding(4, 5, 4, 5);
+            groupBox1.Location = new Point(65, 4);
             groupBox1.Name = "groupBox1";
-            groupBox1.Padding = new Padding(4, 5, 4, 5);
-            groupBox1.Size = new Size(466, 80);
+            groupBox1.Size = new Size(326, 47);
             groupBox1.TabIndex = 6;
             groupBox1.TabStop = false;
             groupBox1.Text = "Include";
@@ -147,10 +146,9 @@
             // chkIncludeNumbers
             // 
             chkIncludeNumbers.AutoSize = true;
-            chkIncludeNumbers.Location = new Point(11, 32);
-            chkIncludeNumbers.Margin = new Padding(4, 5, 4, 5);
+            chkIncludeNumbers.Location = new Point(8, 19);
             chkIncludeNumbers.Name = "chkIncludeNumbers";
-            chkIncludeNumbers.Size = new Size(111, 29);
+            chkIncludeNumbers.Size = new Size(75, 19);
             chkIncludeNumbers.TabIndex = 4;
             chkIncludeNumbers.Text = "Numbers";
             chkIncludeNumbers.UseVisualStyleBackColor = true;
@@ -159,10 +157,9 @@
             // chkIncludeMisc
             // 
             chkIncludeMisc.AutoSize = true;
-            chkIncludeMisc.Location = new Point(391, 32);
-            chkIncludeMisc.Margin = new Padding(4, 5, 4, 5);
+            chkIncludeMisc.Location = new Point(274, 19);
             chkIncludeMisc.Name = "chkIncludeMisc";
-            chkIncludeMisc.Size = new Size(74, 29);
+            chkIncludeMisc.Size = new Size(51, 19);
             chkIncludeMisc.TabIndex = 2;
             chkIncludeMisc.Text = "Misc";
             chkIncludeMisc.UseVisualStyleBackColor = true;
@@ -171,10 +168,9 @@
             // chkIncludePunctuation
             // 
             chkIncludePunctuation.AutoSize = true;
-            chkIncludePunctuation.Location = new Point(252, 32);
-            chkIncludePunctuation.Margin = new Padding(4, 5, 4, 5);
+            chkIncludePunctuation.Location = new Point(176, 19);
             chkIncludePunctuation.Name = "chkIncludePunctuation";
-            chkIncludePunctuation.Size = new Size(132, 29);
+            chkIncludePunctuation.Size = new Size(91, 19);
             chkIncludePunctuation.TabIndex = 1;
             chkIncludePunctuation.Text = "Punctuation";
             chkIncludePunctuation.UseVisualStyleBackColor = true;
@@ -183,10 +179,9 @@
             // chkIncludeCharacters
             // 
             chkIncludeCharacters.AutoSize = true;
-            chkIncludeCharacters.Location = new Point(126, 32);
-            chkIncludeCharacters.Margin = new Padding(4, 5, 4, 5);
+            chkIncludeCharacters.Location = new Point(88, 19);
             chkIncludeCharacters.Name = "chkIncludeCharacters";
-            chkIncludeCharacters.Size = new Size(120, 29);
+            chkIncludeCharacters.Size = new Size(82, 19);
             chkIncludeCharacters.TabIndex = 0;
             chkIncludeCharacters.Text = "Characters";
             chkIncludeCharacters.UseVisualStyleBackColor = true;
@@ -195,10 +190,9 @@
             // btnFont
             // 
             btnFont.Dock = DockStyle.Left;
-            btnFont.Location = new Point(6, 6);
-            btnFont.Margin = new Padding(4, 5, 4, 5);
+            btnFont.Location = new Point(4, 4);
             btnFont.Name = "btnFont";
-            btnFont.Size = new Size(87, 80);
+            btnFont.Size = new Size(61, 47);
             btnFont.TabIndex = 2;
             btnFont.Text = "Font...";
             btnFont.UseVisualStyleBackColor = true;
@@ -210,18 +204,19 @@
             flpFontConverter.BorderStyle = BorderStyle.Fixed3D;
             flpFontConverter.Dock = DockStyle.Fill;
             flpFontConverter.Location = new Point(0, 0);
-            flpFontConverter.Margin = new Padding(4, 5, 4, 5);
             flpFontConverter.Name = "flpFontConverter";
-            flpFontConverter.Size = new Size(1368, 614);
+            flpFontConverter.Size = new Size(958, 369);
             flpFontConverter.TabIndex = 8;
             // 
             // FontEditor
             // 
-            AutoScaleDimensions = new SizeF(10F, 25F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1368, 710);
+            ClientSize = new Size(958, 426);
             Controls.Add(splitContainer1);
             Controls.Add(lblFont);
+            Icon = (Icon)resources.GetObject("$this.Icon");
+            Margin = new Padding(2, 2, 2, 2);
             Name = "FontEditor";
             Text = "System Font Converter";
             splitContainer1.Panel1.ResumeLayout(false);

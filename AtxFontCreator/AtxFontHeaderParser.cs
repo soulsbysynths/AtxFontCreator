@@ -62,13 +62,13 @@ namespace AtxFontCreator
                 }
             }
 
-            int DimensionsLine = font.CharacterCount + 9;
-            if (lines.Count <= DimensionsLine)
+            int PixelSizeLine = font.CharacterCount + 9;
+            if (lines.Count <= PixelSizeLine)
             {
                 return false;
             }
             
-            words = lines[DimensionsLine].Split(' ');
+            words = lines[PixelSizeLine].Split(' ');
             Size dimensions = new();
             const int WidthWord = 1;
             if (words.Length > WidthWord)
@@ -97,7 +97,7 @@ namespace AtxFontCreator
                 }
             }
 
-            font.Dimensions = dimensions;
+            font.PixelSize = dimensions;
 
             int StartCharacterLine = font.CharacterCount + 10;
             if (lines.Count <= StartCharacterLine)
@@ -135,13 +135,13 @@ namespace AtxFontCreator
                     y -= 8;
                     x++;
 
-                    if (x >= font.Dimensions.Width)
+                    if (x >= font.PixelSize.Width)
                     {
                         x = 0;
                         y += 8;
                     }
 
-                    if (y >= font.Dimensions.Height)
+                    if (y >= font.PixelSize.Height)
                     {
                         break;
                     }
@@ -165,7 +165,7 @@ namespace AtxFontCreator
             writer.WriteLine("{");
             writer.WriteLine("\tnew const uint8_t* [" + font.CharacterCount.ToString() + "]");
             writer.WriteLine("{");
-            int charBytes = (int)Math.Ceiling(font.Dimensions.Height / 8f) * font.Dimensions.Width;
+            int charBytes = (int)Math.Ceiling(font.PixelSize.Height / 8f) * font.PixelSize.Width;
             for (int l = 0; l < font.CharacterCount; l++)
             {
                 writer.Write("\tnew const uint8_t[" + charBytes.ToString() + "] { ");
@@ -194,13 +194,13 @@ namespace AtxFontCreator
                     y -= 8;
                     x++;
 
-                    if (x >= font.Dimensions.Width)
+                    if (x >= font.PixelSize.Width)
                     {
                         x = 0;
                         y += 8;
                     }
 
-                    if (y >= font.Dimensions.Height)
+                    if (y >= font.PixelSize.Height)
                     {
                         break;
                     }
@@ -208,7 +208,7 @@ namespace AtxFontCreator
             }
 
             writer.WriteLine("},");
-            writer.WriteLine("\t{ " + font.Dimensions.Width.ToString() + ", " + font.Dimensions.Height.ToString() + " },");
+            writer.WriteLine("\t{ " + font.PixelSize.Width.ToString() + ", " + font.PixelSize.Height.ToString() + " },");
             writer.WriteLine("\t'" + (char)font.StartCharacter + "',");
             writer.WriteLine("\t" + font.CharacterCount.ToString());
             writer.WriteLine("};");

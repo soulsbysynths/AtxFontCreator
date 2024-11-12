@@ -14,16 +14,17 @@ namespace AtxFontCreator
 {
     public partial class AtxFont : UserControl
     {
-        public event EventHandler? DimensionsChanged;
+        public event EventHandler? PixelSizeChanged;
         public event EventHandler? StartCharacterChanged;
         public event EventHandler? CharacterCountChanged;
         private string fontName = "";
-        private Size dimensions;
+        private Size pixelSize;
         private int startCharacter;
         private int characterCount;
         public AtxFont()
         {
             InitializeComponent();
+            Dock = DockStyle.Fill;
         }
 
         private readonly List<AtxCharacter> characters = [];
@@ -69,26 +70,26 @@ namespace AtxFontCreator
             }
         }
 
-        public Size Dimensions
+        public Size PixelSize
         {
-            get { return dimensions; }
+            get { return pixelSize; }
             set
             {
-                if (dimensions == value)
+                if (pixelSize == value)
                 {
                     return;
                 }
 
-                dimensions = value;
-                numWidth.Value = dimensions.Width;
-                numHeight.Value = dimensions.Height;
+                pixelSize = value;
+                numWidth.Value = pixelSize.Width;
+                numHeight.Value = pixelSize.Height;
 
                 foreach (AtxCharacter character in characters)
                 {
-                    character.Dimensions = dimensions;
+                    character.PixelSize = pixelSize;
                 }
 
-                DimensionsChanged?.Invoke(this, EventArgs.Empty);
+                PixelSizeChanged?.Invoke(this, EventArgs.Empty);
             }
         }
 
@@ -134,12 +135,12 @@ namespace AtxFontCreator
 
         private void NumWidth_ValueChanged(object sender, EventArgs e)
         {
-            Dimensions = new Size((int)numWidth.Value, dimensions.Height);
+            PixelSize = new Size((int)numWidth.Value, pixelSize.Height);
         }
 
         private void NumHeight_ValueChanged(object sender, EventArgs e)
         {
-            Dimensions = new Size(dimensions.Width, (int)numHeight.Value);
+            PixelSize = new Size(pixelSize.Width, (int)numHeight.Value);
         }
 
         private void NumStartCharacter_ValueChanged(object sender, EventArgs e)
@@ -169,7 +170,7 @@ namespace AtxFontCreator
             {
                 AtxCharacter atxCharacter = new()
                 {
-                    Dimensions = dimensions
+                    PixelSize = pixelSize
                 };
                 return atxCharacter;
             }
@@ -262,7 +263,7 @@ namespace AtxFontCreator
             {
                 Visible = true,
                 Character = c,
-                Dimensions = dimensions,
+                PixelSize = pixelSize,
                 Height = tbZoom.Value,
             };
 

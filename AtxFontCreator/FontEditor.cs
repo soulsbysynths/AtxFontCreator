@@ -33,21 +33,21 @@ namespace AtxFontCreator
             SetIncludeCharacters(IncludeCharacters.Characters | IncludeCharacters.Numbers);
         }
 
-        private Size dimensions = new(8,16);
+        private Size outputSize = new(8,16);
 
-        public Size Dimensions
+        public Size OutputSize
         {
-            get { return dimensions; }
+            get { return outputSize; }
             set 
             { 
-                if(dimensions == value)
+                if(outputSize == value)
                 {
                     return;
                 }
 
-                dimensions = value;
-                numWidth.Value = dimensions.Width;
-                numHeight.Value = dimensions.Height;
+                outputSize = value;
+                numWidth.Value = outputSize.Width;
+                numHeight.Value = outputSize.Height;
                 BuildFont();
             }
         }
@@ -158,12 +158,12 @@ namespace AtxFontCreator
 
         private void NumWidth_ValueChanged(object sender, EventArgs e)
         {
-            Dimensions = new Size((int)numWidth.Value, dimensions.Height);
+            OutputSize = new Size((int)numWidth.Value, outputSize.Height);
         }
 
         private void NumHeight_ValueChanged(object sender, EventArgs e)
         {
-            Dimensions = new Size(dimensions.Width, (int)numHeight.Value);
+            OutputSize = new Size(outputSize.Width, (int)numHeight.Value);
         }
 
         public void BuildFont()
@@ -204,7 +204,7 @@ namespace AtxFontCreator
 
                 FontCharacter character = (FontCharacter)c;
                 character.SourceRect = sourceRect;
-                character.DestinationBitmap = new Bitmap(dimensions.Width, dimensions.Height);
+                character.DestinationBitmap = new Bitmap(outputSize.Width, outputSize.Height);
             }
 
             lblFont.Text = fontDialog1.Font.Name + ", " + fontDialog1.Font.Style + ", " + fontDialog1.Font.Size + "pt";
@@ -257,9 +257,9 @@ namespace AtxFontCreator
                         continue;
                     }
 
-                    for (int y = 0; y < atxFont.Dimensions.Height; y++)
+                    for (int y = 0; y < atxFont.PixelSize.Height; y++)
                     {
-                        for (int x = 0; x < atxFont.Dimensions.Width; x++)
+                        for (int x = 0; x < atxFont.PixelSize.Width; x++)
                         {
                             Color col = fontCharacter.DestinationBitmap.GetPixel(x, y);
                             int greyscale = (col.R + col.G + col.B) / 3;
