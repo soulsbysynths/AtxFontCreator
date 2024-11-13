@@ -40,6 +40,8 @@ namespace AtxFontCreator
         public AtxLayer()
         {
             InitializeComponent();
+            cboColour.SelectedIndex = 0;
+            cboDrawMode.SelectedIndex = 0;
             LockWidth();
         }
 
@@ -155,17 +157,22 @@ namespace AtxFontCreator
 
             characters[location.X, location.Y] = value;
             string s = String.Empty;
+            string h = String.Empty;
             for (int y = 0; y < CharacterSize.Height; y++)
             {
                 for (int x = 0; x < CharacterSize.Width; x++)
                 {
                     s += characters[x, y];
+                    h += ((int)characters[x, y]).ToString("X2");
+                    h += " ";
+
                 }
 
                 s += Environment.NewLine;
+                h += Environment.NewLine;
             }
 
-            txtCharacters.Text = s;
+            lblCharacters.Text = h + s;
             picLayer.Invalidate();
         }
 
@@ -235,18 +242,6 @@ namespace AtxFontCreator
             }
         }
 
-        private void TxtCharacters_TextChanged(object sender, EventArgs e)
-        {
-            string[] lines = txtCharacters.Text.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
-            for (int l = 0; l < lines.Length; l++)
-            {
-                for (int c = 0; c < lines[l].Length; c++)
-                {
-                    SetCharacter(new Point(c, l), lines[l][c]);
-                }
-            }
-        }
-
         private void CboDrawMode_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboBox combo = (ComboBox)sender;
@@ -262,16 +257,23 @@ namespace AtxFontCreator
         private void NumWidth_ValueChanged(object sender, EventArgs e)
         {
             CharacterSize = new Size((int)numWidth.Value, CharacterSize.Height);
+            numColumn.Maximum = numWidth.Value;
         }
 
         private void NumHeight_ValueChanged(object sender, EventArgs e)
         {
             CharacterSize = new Size(CharacterSize.Width, (int)numHeight.Value);
+            numRow.Maximum = numHeight.Value;
         }
 
-        private void picLayer_Resize(object sender, EventArgs e)
+        private void PicLayer_Resize(object sender, EventArgs e)
         {
             LockWidth();
+        }
+
+        private void BtnPrintString_Click(object sender, EventArgs e)
+        {
+            PrintString(new Point((int)numColumn.Value, (int)numRow.Value), txtPrintString.Text);
         }
     }
 }

@@ -15,13 +15,13 @@ namespace AtxFontCreator
 {
     public partial class AtxFontLibrary : Form
     {
-        private readonly List<AtxFont> fonts = [];
+        public List<AtxFont> Fonts { get; set; } = [];
 
         public AtxFontLibrary()
         {
             InitializeComponent();
             PopulateFontLibrary();
-            if (fonts.Count == 0)
+            if (Fonts.Count == 0)
             {
                 AddNewFont();
             }
@@ -29,7 +29,7 @@ namespace AtxFontCreator
 
         public void AddNewFont()
         {
-            fonts.Add(new AtxFont()
+            Fonts.Add(new AtxFont()
             {
                 FontName = "newAtxFont",
                 PixelSize = new Size(8, 16),
@@ -37,7 +37,7 @@ namespace AtxFontCreator
                 CharacterCount = 95,
             });
 
-            lstAtxFontLibrary.DataSource = fonts;
+            lstAtxFontLibrary.DataSource = Fonts;
             lstAtxFontLibrary.DisplayMember = "FontName";
         }
 
@@ -51,8 +51,8 @@ namespace AtxFontCreator
             }
             else
             {
-                fonts.Add(newFont);
-                lstAtxFontLibrary.DataSource = fonts;
+                Fonts.Add(newFont);
+                lstAtxFontLibrary.DataSource = Fonts;
                 lstAtxFontLibrary.DisplayMember = "FontName";
             }
             reader.Close();
@@ -70,25 +70,25 @@ namespace AtxFontCreator
         {
             get 
             {
-                Span<AtxFont> span = CollectionsMarshal.AsSpan(fonts);
+                Span<AtxFont> span = CollectionsMarshal.AsSpan(Fonts);
                 return ref span[lstAtxFontLibrary.SelectedIndex]; 
             }
         }
 
         private void LstAtxFontLibrary_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (lstAtxFontLibrary.SelectedIndex < 0 || lstAtxFontLibrary.SelectedIndex >= fonts.Count)
+            if (lstAtxFontLibrary.SelectedIndex < 0 || lstAtxFontLibrary.SelectedIndex >= Fonts.Count)
             {
                 return;
             }
 
             splitContainer1.Panel2.Controls.Clear();
-            splitContainer1.Panel2.Controls.Add(fonts[lstAtxFontLibrary.SelectedIndex]);
+            splitContainer1.Panel2.Controls.Add(Fonts[lstAtxFontLibrary.SelectedIndex]);
         }
 
         public void PopulateFontLibrary()
         {
-            fonts.Clear();
+            Fonts.Clear();
             string[] filePaths = Directory.GetFiles(Properties.Settings.Default.LibraryPath, "*.h");
             foreach (string filePath in filePaths)
             {
@@ -97,14 +97,14 @@ namespace AtxFontCreator
                 AtxFont newFont = new();
                 if (AtxFontHeaderParser.ImportHeader(reader, ref newFont))
                 {
-                    fonts.Add(newFont);
+                    Fonts.Add(newFont);
                 }
 
                 reader.Close();
                 file.Close();
             }
 
-            lstAtxFontLibrary.DataSource = fonts;
+            lstAtxFontLibrary.DataSource = Fonts;
             lstAtxFontLibrary.DisplayMember = "FontName";
         }
     }
