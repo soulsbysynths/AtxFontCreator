@@ -370,7 +370,8 @@ namespace AtxFontCreator
         private void BtnMove_Click(object sender, EventArgs e)
         {
             Button button = (Button)sender;
-            AtxCharacter.Direction direction = (AtxCharacter.Direction?)button.Tag ?? AtxCharacter.Direction.Up;
+
+            AtxCharacter.Direction direction = (AtxCharacter.Direction)Convert.ToInt32(button.Tag);
             foreach (AtxCharacter character in characters)
             {
                 if (character.Selected)

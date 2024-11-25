@@ -27,6 +27,7 @@ namespace AtxFontCreator
         private void ExportToolStripMenuItem_Click(object sender, EventArgs e)
         {
             saveFileDialog1.Filter = "Header files|*.h";
+            saveFileDialog1.FileName = AtxFontLibrary.CurrentFont.FontName;
             if (saveFileDialog1.ShowDialog() != DialogResult.OK)
             {
                 return;

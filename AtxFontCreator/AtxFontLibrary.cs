@@ -68,10 +68,10 @@ namespace AtxFontCreator
 
         public ref AtxFont CurrentFont
         {
-            get 
+            get
             {
                 Span<AtxFont> span = CollectionsMarshal.AsSpan(Fonts);
-                return ref span[lstAtxFontLibrary.SelectedIndex]; 
+                return ref span[lstAtxFontLibrary.SelectedIndex];
             }
         }
 
@@ -88,6 +88,11 @@ namespace AtxFontCreator
 
         public void PopulateFontLibrary()
         {
+            if (!Directory.Exists(Properties.Settings.Default.LibraryPath))
+            {
+                return;
+            }
+
             Fonts.Clear();
             string[] filePaths = Directory.GetFiles(Properties.Settings.Default.LibraryPath, "*.h");
             foreach (string filePath in filePaths)

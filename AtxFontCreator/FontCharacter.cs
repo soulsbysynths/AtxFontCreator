@@ -7,7 +7,7 @@ namespace AtxFontCreator
 {
     public partial class FontCharacter : UserControl
     {
-        public event EventHandler? IncludeClicked;
+        public event EventHandler? SelectedChanged;
         public FontCharacter()
         {
             InitializeComponent();
@@ -24,7 +24,7 @@ namespace AtxFontCreator
             }
         }
 
-        private Font font = new(FontFamily.GenericSerif, 18);
+        private Font font = new(FontFamily.GenericSerif, 32);
 
         public Font CharacterFont
         {
@@ -32,6 +32,24 @@ namespace AtxFontCreator
             set
             {
                 font = value;
+            }
+        }
+
+        private bool selected;
+
+        public bool Selected
+        {
+            get { return selected; }
+            set
+            {
+                if (value == selected)
+                {
+                    return;
+                }
+
+                selected = value;
+                Invalidate();
+                SelectedChanged?.Invoke(this, EventArgs.Empty);
             }
         }
 
@@ -49,7 +67,9 @@ namespace AtxFontCreator
                 }
 
                 sourceRect = value;
-                Resize();
+                this.Width = (int)Math.Ceiling(sourceRect.Width);
+                this.Height = (int)Math.Ceiling(sourceRect.Height);
+                PaintDestinationBitmap();
             }
         }
 
@@ -66,10 +86,17 @@ namespace AtxFontCreator
                 }
 
                 destinationBitmap = value;
-                Resize();
+                PaintDestinationBitmap();
             }
         }
 
+        public bool LabelVisible
+        {
+            set
+            {
+                lblCharacter.Visible = value;
+            }
+        }
 
         public RectangleF SourceBoundingBox
         {
@@ -81,24 +108,9 @@ namespace AtxFontCreator
             }
         }
 
-        private bool include = true;
+        public bool Include { get; set; }
 
-        public bool Include
-        {
-            get { return include; }
-            set
-            {
-                if (include == value)
-                {
-                    return;
-                }
-
-                include = value;
-                chkInclude.Checked = include;
-            }
-        }
-
-        private new void Resize()
+        private void PaintDestinationBitmap()
         {
             Graphics g = Graphics.FromImage(DestinationBitmap);
             SolidBrush solidBrush = new(Color.White);
@@ -111,12 +123,6 @@ namespace AtxFontCreator
             }
 
             g.FillPath(solidBrush, path);
-            picSource.Left = picSource.Margin.Left;
-            picSource.Size = new Size((int)Math.Ceiling(sourceRect.Size.Width), (int)Math.Ceiling(sourceRect.Height));  //sourceRect.Size.ToSize();
-            picDestination.Left = picSource.Right + picSource.Margin.Right + picDestination.Margin.Left;
-            picDestination.Size = destinationBitmap.Size;
-            Width = Math.Max(picDestination.Right + picDestination.Margin.Right, chkInclude.Right + chkInclude.Margin.Right);
-            Height = Math.Max(picSource.Bottom + picDestination.Margin.Bottom, picDestination.Bottom + picSource.Margin.Bottom);
         }
 
         private static StringFormat CentreFormat()
@@ -127,7 +133,7 @@ namespace AtxFontCreator
             return stringFormat;
         }
 
-        private void PicSource_Paint(object sender, PaintEventArgs e)
+        private void FontCharacter_Paint(object sender, PaintEventArgs e)
         {
             SolidBrush solidBrush = new(Color.White);
             GraphicsPath path = new();
@@ -140,20 +146,15 @@ namespace AtxFontCreator
                 new Pen(Color.Cyan) : new Pen(Color.DarkGray);
             e.Graphics.DrawRectangle(pen, path.GetBounds());
             e.Graphics.FillPath(solidBrush, path);
-        }
-
-        private void PicDestination_Paint(object sender, PaintEventArgs e)
-        {
-            e.Graphics.DrawImage(DestinationBitmap, 0, 0);
-        }
-
-        private void ChkInclude_Click(object sender, EventArgs e)
-        {
-            if (sender is CheckBox checkBox)
+            if (selected)
             {
-                Include = checkBox.Checked;
-                IncludeClicked?.Invoke(this, EventArgs.Empty);
+                e.Graphics.DrawRectangle(Pens.White, new Rectangle(0, 0, Size.Width - (int)Pens.White.Width, Size.Height - (int)Pens.White.Width));
             }
+        }
+
+        private void FontCharacter_Click(object sender, EventArgs e)
+        {
+            Selected = !selected;
         }
     }
 }

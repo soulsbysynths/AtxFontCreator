@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -12,10 +13,11 @@ namespace AtxFontCreator
 {
     public partial class FontEditor : Form
     {
+        private int selectedCharacterIndex = 0;
         public FontEditor()
         {
             InitializeComponent();
-            fontDialog1.Font = new Font(FontFamily.GenericSansSerif, 20, FontStyle.Bold);
+            fontDialog1.Font = new Font(FontFamily.GenericSansSerif, 40, FontStyle.Bold);
             for (int i = 0; i < 256; i++)
             {
                 FontCharacter character = new();
@@ -23,7 +25,7 @@ namespace AtxFontCreator
                 {
                     character.Include = false;
                 }
-                character.IncludeClicked += FontCharacter_IncludeClicked;
+                character.SelectedChanged += FontCharacter_SelectChanged;
                 character.CharacterFont = fontDialog1.Font;
                 character.Character = (char)i;
 
@@ -33,14 +35,30 @@ namespace AtxFontCreator
             SetIncludeCharacters(IncludeCharacters.Characters | IncludeCharacters.Numbers);
         }
 
-        private Size outputSize = new(8,16);
+        public Span<FontCharacter> FontsSpan
+        {
+            get
+            {
+                return CollectionsMarshal.AsSpan(flpFontConverter.Controls.OfType<FontCharacter>().ToList());
+            }
+        }
+
+        public ref FontCharacter SelectedCharacter
+        {
+            get
+            {
+                return ref FontsSpan[selectedCharacterIndex];
+            }
+        }
+
+        private Size outputSize = new(8, 16);
 
         public Size OutputSize
         {
             get { return outputSize; }
-            set 
-            { 
-                if(outputSize == value)
+            set
+            {
+                if (outputSize == value)
                 {
                     return;
                 }
@@ -48,6 +66,7 @@ namespace AtxFontCreator
                 outputSize = value;
                 numWidth.Value = outputSize.Width;
                 numHeight.Value = outputSize.Height;
+                atxCharacter1.PixelSize = outputSize;
                 BuildFont();
             }
         }
@@ -125,9 +144,32 @@ namespace AtxFontCreator
             BuildFont();
         }
 
-        private void FontCharacter_IncludeClicked(object? sender, EventArgs e)
+        private void FontCharacter_SelectChanged(object? sender, EventArgs e)
         {
-            BuildFont();
+            if (sender is null)
+            {
+                return;
+            }
+
+            FontCharacter selectedCharacter = (FontCharacter)sender;
+            if (selectedCharacter.Selected == false)
+            {
+                return;
+            }
+
+            CopyToAtxCharacter(ref selectedCharacter, ref atxCharacter1);
+
+            for (int i = 0; i < FontsSpan.Length; i++)
+            { 
+                if (FontsSpan[i] != selectedCharacter)
+                {
+                    FontsSpan[i].Selected = false;
+                }
+                else
+                {
+                    selectedCharacterIndex = i;
+                }
+            }
         }
 
         private void ChkInclude_CheckedChanged(object sender, EventArgs e)
@@ -233,12 +275,12 @@ namespace AtxFontCreator
             }
         }
 
-        public void CopyToAtxFont(ref AtxFont atxFont)
+        public void CopyToAtxFont(ref AtxFont destinationFont)
         {
             // Copy to ATX font
-            for (int i = 0; i < atxFont.CharacterCount; i++)
+            for (int i = 0; i < destinationFont.CharacterCount; i++)
             {
-                AtxCharacter atxCharacter = atxFont.GetCharacter(i);
+                AtxCharacter atxCharacter = destinationFont.GetCharacter(i);
                 if (!atxCharacter.Selected)
                 {
                     continue;
@@ -257,17 +299,38 @@ namespace AtxFontCreator
                         continue;
                     }
 
-                    for (int y = 0; y < atxFont.PixelSize.Height; y++)
-                    {
-                        for (int x = 0; x < atxFont.PixelSize.Width; x++)
-                        {
-                            Color col = fontCharacter.DestinationBitmap.GetPixel(x, y);
-                            int greyscale = (col.R + col.G + col.B) / 3;
-                            atxCharacter.SetPixel(new Point(x, y), greyscale >= 128);
-                        }
-                    }
+                    CopyToAtxCharacter(ref fontCharacter, ref atxCharacter);
                     break;
                 }
+            }
+        }
+
+        private static void CopyToAtxCharacter(ref FontCharacter source, ref AtxCharacter destination)
+        {
+            for (int y = 0; y < destination.PixelSize.Height; y++)
+            {
+                for (int x = 0; x < destination.PixelSize.Width; x++)
+                {
+                    Color col = source.DestinationBitmap.GetPixel(x, y);
+                    int greyscale = (col.R + col.G + col.B) / 3;
+                    destination.SetPixel(new Point(x, y), greyscale >= 128);
+                }
+            }
+        }
+
+        private void ChkShowLabels_CheckedChanged(object sender, EventArgs e)
+        {
+            CheckBox checkBox = (CheckBox)sender;
+
+            foreach (Control c in flpFontConverter.Controls)
+            {
+                if (c is not FontCharacter)
+                {
+                    continue;
+                }
+
+                FontCharacter character = (FontCharacter)c;
+                character.LabelVisible = checkBox.Checked;
             }
         }
     }

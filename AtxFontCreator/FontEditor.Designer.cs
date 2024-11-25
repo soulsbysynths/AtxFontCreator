@@ -32,11 +32,14 @@
             lblFont = new Label();
             fontDialog1 = new FontDialog();
             splitContainer1 = new SplitContainer();
+            chkShowLabels = new CheckBox();
+            atxCharacter1 = new AtxCharacter();
             groupBox2 = new GroupBox();
             numHeight = new NumericUpDown();
             numWidth = new NumericUpDown();
             label3 = new Label();
             groupBox1 = new GroupBox();
+            btnSetBoundingBoxes = new Button();
             chkIncludeNumbers = new CheckBox();
             chkIncludeMisc = new CheckBox();
             chkIncludePunctuation = new CheckBox();
@@ -56,10 +59,9 @@
             // lblFont
             // 
             lblFont.AutoSize = true;
-            lblFont.Location = new Point(4, 80);
-            lblFont.Margin = new Padding(4, 0, 4, 0);
+            lblFont.Location = new Point(3, 48);
             lblFont.Name = "lblFont";
-            lblFont.Size = new Size(0, 25);
+            lblFont.Size = new Size(0, 15);
             lblFont.TabIndex = 8;
             lblFont.TextAlign = ContentAlignment.MiddleLeft;
             // 
@@ -67,23 +69,50 @@
             // 
             splitContainer1.Dock = DockStyle.Fill;
             splitContainer1.Location = new Point(0, 0);
+            splitContainer1.Margin = new Padding(2);
             splitContainer1.Name = "splitContainer1";
             splitContainer1.Orientation = Orientation.Horizontal;
             // 
             // splitContainer1.Panel1
             // 
+            splitContainer1.Panel1.Controls.Add(chkShowLabels);
+            splitContainer1.Panel1.Controls.Add(atxCharacter1);
             splitContainer1.Panel1.Controls.Add(groupBox2);
             splitContainer1.Panel1.Controls.Add(groupBox1);
             splitContainer1.Panel1.Controls.Add(btnFont);
-            splitContainer1.Panel1.Padding = new Padding(6, 7, 6, 7);
+            splitContainer1.Panel1.Padding = new Padding(4);
             // 
             // splitContainer1.Panel2
             // 
             splitContainer1.Panel2.Controls.Add(flpFontConverter);
-            splitContainer1.Size = new Size(1369, 710);
-            splitContainer1.SplitterDistance = 91;
-            splitContainer1.SplitterWidth = 3;
+            splitContainer1.Size = new Size(1102, 595);
+            splitContainer1.SplitterDistance = 135;
+            splitContainer1.SplitterWidth = 2;
             splitContainer1.TabIndex = 9;
+            // 
+            // chkShowLabels
+            // 
+            chkShowLabels.AutoSize = true;
+            chkShowLabels.Dock = DockStyle.Left;
+            chkShowLabels.Location = new Point(408, 4);
+            chkShowLabels.Name = "chkShowLabels";
+            chkShowLabels.Size = new Size(91, 127);
+            chkShowLabels.TabIndex = 13;
+            chkShowLabels.Text = "Show Labels";
+            chkShowLabels.UseVisualStyleBackColor = true;
+            chkShowLabels.CheckedChanged += ChkShowLabels_CheckedChanged;
+            // 
+            // atxCharacter1
+            // 
+            atxCharacter1.BackColor = Color.FromArgb(224, 224, 224);
+            atxCharacter1.Character = '\0';
+            atxCharacter1.Dock = DockStyle.Left;
+            atxCharacter1.Location = new Point(345, 4);
+            atxCharacter1.Name = "atxCharacter1";
+            atxCharacter1.PixelSize = new Size(8, 16);
+            atxCharacter1.Selected = true;
+            atxCharacter1.Size = new Size(63, 127);
+            atxCharacter1.TabIndex = 12;
             // 
             // groupBox2
             // 
@@ -91,68 +120,76 @@
             groupBox2.Controls.Add(numWidth);
             groupBox2.Controls.Add(label3);
             groupBox2.Dock = DockStyle.Left;
-            groupBox2.Location = new Point(559, 7);
+            groupBox2.Location = new Point(223, 4);
+            groupBox2.Margin = new Padding(2);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(174, 77);
+            groupBox2.Padding = new Padding(2);
+            groupBox2.Size = new Size(122, 127);
             groupBox2.TabIndex = 7;
             groupBox2.TabStop = false;
             groupBox2.Text = "Output Size";
             // 
             // numHeight
             // 
-            numHeight.Location = new Point(103, 32);
-            numHeight.Margin = new Padding(4, 5, 4, 5);
+            numHeight.Location = new Point(72, 18);
             numHeight.Maximum = new decimal(new int[] { 255, 0, 0, 0 });
             numHeight.Name = "numHeight";
-            numHeight.Size = new Size(60, 31);
+            numHeight.Size = new Size(42, 23);
             numHeight.TabIndex = 9;
             numHeight.Value = new decimal(new int[] { 16, 0, 0, 0 });
             numHeight.ValueChanged += NumHeight_ValueChanged;
             // 
             // numWidth
             // 
-            numWidth.Location = new Point(7, 32);
-            numWidth.Margin = new Padding(4, 5, 4, 5);
+            numWidth.Location = new Point(5, 19);
             numWidth.Maximum = new decimal(new int[] { 255, 0, 0, 0 });
             numWidth.Name = "numWidth";
-            numWidth.Size = new Size(60, 31);
-            numWidth.TabIndex = 8;
+            numWidth.Size = new Size(42, 23);
+            numWidth.TabIndex = 7;
             numWidth.Value = new decimal(new int[] { 8, 0, 0, 0 });
             numWidth.ValueChanged += NumWidth_ValueChanged;
             // 
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(74, 37);
-            label3.Margin = new Padding(4, 0, 4, 0);
+            label3.Location = new Point(53, 20);
             label3.Name = "label3";
-            label3.Size = new Size(20, 25);
-            label3.TabIndex = 7;
+            label3.Size = new Size(13, 15);
+            label3.TabIndex = 8;
             label3.Text = "x";
             // 
             // groupBox1
             // 
+            groupBox1.Controls.Add(btnSetBoundingBoxes);
             groupBox1.Controls.Add(chkIncludeNumbers);
             groupBox1.Controls.Add(chkIncludeMisc);
             groupBox1.Controls.Add(chkIncludePunctuation);
             groupBox1.Controls.Add(chkIncludeCharacters);
             groupBox1.Dock = DockStyle.Left;
-            groupBox1.Location = new Point(93, 7);
-            groupBox1.Margin = new Padding(4, 5, 4, 5);
+            groupBox1.Location = new Point(65, 4);
             groupBox1.Name = "groupBox1";
-            groupBox1.Padding = new Padding(4, 5, 4, 5);
-            groupBox1.Size = new Size(466, 77);
+            groupBox1.Size = new Size(158, 127);
             groupBox1.TabIndex = 6;
             groupBox1.TabStop = false;
-            groupBox1.Text = "Include";
+            groupBox1.Text = "Set All Bounding Boxes";
+            // 
+            // btnSetBoundingBoxes
+            // 
+            btnSetBoundingBoxes.Dock = DockStyle.Top;
+            btnSetBoundingBoxes.Location = new Point(3, 95);
+            btnSetBoundingBoxes.Name = "btnSetBoundingBoxes";
+            btnSetBoundingBoxes.Size = new Size(152, 27);
+            btnSetBoundingBoxes.TabIndex = 5;
+            btnSetBoundingBoxes.Text = "Set";
+            btnSetBoundingBoxes.UseVisualStyleBackColor = true;
             // 
             // chkIncludeNumbers
             // 
             chkIncludeNumbers.AutoSize = true;
-            chkIncludeNumbers.Location = new Point(11, 32);
-            chkIncludeNumbers.Margin = new Padding(4, 5, 4, 5);
+            chkIncludeNumbers.Dock = DockStyle.Top;
+            chkIncludeNumbers.Location = new Point(3, 76);
             chkIncludeNumbers.Name = "chkIncludeNumbers";
-            chkIncludeNumbers.Size = new Size(111, 29);
+            chkIncludeNumbers.Size = new Size(152, 19);
             chkIncludeNumbers.TabIndex = 4;
             chkIncludeNumbers.Text = "Numbers";
             chkIncludeNumbers.UseVisualStyleBackColor = true;
@@ -161,10 +198,10 @@
             // chkIncludeMisc
             // 
             chkIncludeMisc.AutoSize = true;
-            chkIncludeMisc.Location = new Point(391, 32);
-            chkIncludeMisc.Margin = new Padding(4, 5, 4, 5);
+            chkIncludeMisc.Dock = DockStyle.Top;
+            chkIncludeMisc.Location = new Point(3, 57);
             chkIncludeMisc.Name = "chkIncludeMisc";
-            chkIncludeMisc.Size = new Size(74, 29);
+            chkIncludeMisc.Size = new Size(152, 19);
             chkIncludeMisc.TabIndex = 2;
             chkIncludeMisc.Text = "Misc";
             chkIncludeMisc.UseVisualStyleBackColor = true;
@@ -173,10 +210,10 @@
             // chkIncludePunctuation
             // 
             chkIncludePunctuation.AutoSize = true;
-            chkIncludePunctuation.Location = new Point(251, 32);
-            chkIncludePunctuation.Margin = new Padding(4, 5, 4, 5);
+            chkIncludePunctuation.Dock = DockStyle.Top;
+            chkIncludePunctuation.Location = new Point(3, 38);
             chkIncludePunctuation.Name = "chkIncludePunctuation";
-            chkIncludePunctuation.Size = new Size(132, 29);
+            chkIncludePunctuation.Size = new Size(152, 19);
             chkIncludePunctuation.TabIndex = 1;
             chkIncludePunctuation.Text = "Punctuation";
             chkIncludePunctuation.UseVisualStyleBackColor = true;
@@ -185,10 +222,10 @@
             // chkIncludeCharacters
             // 
             chkIncludeCharacters.AutoSize = true;
-            chkIncludeCharacters.Location = new Point(126, 32);
-            chkIncludeCharacters.Margin = new Padding(4, 5, 4, 5);
+            chkIncludeCharacters.Dock = DockStyle.Top;
+            chkIncludeCharacters.Location = new Point(3, 19);
             chkIncludeCharacters.Name = "chkIncludeCharacters";
-            chkIncludeCharacters.Size = new Size(120, 29);
+            chkIncludeCharacters.Size = new Size(152, 19);
             chkIncludeCharacters.TabIndex = 0;
             chkIncludeCharacters.Text = "Characters";
             chkIncludeCharacters.UseVisualStyleBackColor = true;
@@ -197,10 +234,9 @@
             // btnFont
             // 
             btnFont.Dock = DockStyle.Left;
-            btnFont.Location = new Point(6, 7);
-            btnFont.Margin = new Padding(4, 5, 4, 5);
+            btnFont.Location = new Point(4, 4);
             btnFont.Name = "btnFont";
-            btnFont.Size = new Size(87, 77);
+            btnFont.Size = new Size(61, 127);
             btnFont.TabIndex = 2;
             btnFont.Text = "Font...";
             btnFont.UseVisualStyleBackColor = true;
@@ -209,27 +245,29 @@
             // flpFontConverter
             // 
             flpFontConverter.AutoScroll = true;
+            flpFontConverter.BackColor = SystemColors.ControlDark;
             flpFontConverter.BorderStyle = BorderStyle.Fixed3D;
             flpFontConverter.Dock = DockStyle.Fill;
             flpFontConverter.Location = new Point(0, 0);
-            flpFontConverter.Margin = new Padding(4, 5, 4, 5);
             flpFontConverter.Name = "flpFontConverter";
-            flpFontConverter.Size = new Size(1369, 616);
+            flpFontConverter.Size = new Size(1102, 458);
             flpFontConverter.TabIndex = 8;
             // 
             // FontEditor
             // 
-            AutoScaleDimensions = new SizeF(10F, 25F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1369, 710);
+            ClientSize = new Size(1102, 595);
             Controls.Add(splitContainer1);
             Controls.Add(lblFont);
             Icon = (Icon)resources.GetObject("$this.Icon");
+            Margin = new Padding(2);
             Name = "FontEditor";
             ShowIcon = false;
             ShowInTaskbar = false;
             Text = "System Font Converter";
             splitContainer1.Panel1.ResumeLayout(false);
+            splitContainer1.Panel1.PerformLayout();
             splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
             splitContainer1.ResumeLayout(false);
@@ -258,5 +296,8 @@
         private NumericUpDown numHeight;
         private NumericUpDown numWidth;
         private Label label3;
+        private Button btnSetBoundingBoxes;
+        private AtxCharacter atxCharacter1;
+        private CheckBox chkShowLabels;
     }
 }
