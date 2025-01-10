@@ -3,11 +3,15 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Drawing.Text;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Net.Mime.MediaTypeNames;
+using Font = System.Drawing.Font;
 
 namespace AtxFontCreator
 {
@@ -20,7 +24,7 @@ namespace AtxFontCreator
             fontDialog1.Font = new Font(FontFamily.GenericSansSerif, 40, FontStyle.Bold);
             for (int i = 0; i < 256; i++)
             {
-                FontCharacter character = new(outputSize);
+                FontCharacter character = new();
                 if (i < 33 || i > 126)
                 {
                     character.Include = false;
@@ -80,7 +84,6 @@ namespace AtxFontCreator
                     }
 
                     FontCharacter character = (FontCharacter)c;
-                    character.DestinationBitmap = new Bitmap(outputSize.Width, outputSize.Height);
                 }
                 flpFontConverter.ResumeLayout();
                 RefreshSelectedCharacter();
@@ -360,11 +363,24 @@ namespace AtxFontCreator
 
         private static void CopyToAtxCharacter(ref FontCharacter source, ref AtxCharacter destination)
         {
+            Bitmap destinationBitmap = new(destination.PixelSize.Width, destination.PixelSize.Height);
+            Graphics g = Graphics.FromImage(destinationBitmap);
+            SolidBrush solidBrush = new(Color.White);
+            GraphicsPath path = new();
+            path.AddString(source.Character.ToString(), source.CharacterFont.FontFamily, (int)source.CharacterFont.Style, source.CharacterFont.Size, new PointF(-source.SourceRect.X, -source.SourceRect.Y), FontCharacter.CentreFormat());
+            g.TextRenderingHint = TextRenderingHint.SingleBitPerPixel;
+            if (source.SourceRect.Height > 0)
+            {
+                g.ScaleTransform((float)destinationBitmap.Width / (float)source.SourceRect.Width, (float)destinationBitmap.Height / (float)source.SourceRect.Height);
+            }
+
+            g.FillPath(solidBrush, path);
+
             for (int y = 0; y < destination.PixelSize.Height; y++)
             {
                 for (int x = 0; x < destination.PixelSize.Width; x++)
                 {
-                    Color col = source.DestinationBitmap.GetPixel(x, y);
+                    Color col = destinationBitmap.GetPixel(x, y);
                     int greyscale = (col.R + col.G + col.B) / 3;
                     destination.SetPixel(new Point(x, y), greyscale >= 128);
                 }
@@ -390,7 +406,7 @@ namespace AtxFontCreator
         private void NumBB_ValueChanged(object sender, EventArgs e)
         {
             RectangleF newRect = new ((float)numBBX.Value, (float)numBBY.Value, (float)numBBWidth.Value, (float)numBBHeight.Value);
-            SelectedCharacter.SourceRect = newRect;
+            //SelectedCharacter.SourceRect = newRect;
         }
     }
 }

@@ -9,10 +9,9 @@ namespace AtxFontCreator
     {
         public event EventHandler? SelectedChanged;
         public event EventHandler? SourceRectChanged;
-        public FontCharacter(Size destinationSize)
+        public FontCharacter()
         {
             InitializeComponent();
-            DestinationBitmap = new Bitmap(destinationSize.Width, destinationSize.Height);
         }
         private char character = 'A';
 
@@ -26,14 +25,14 @@ namespace AtxFontCreator
             }
         }
 
-        private Font font = new(FontFamily.GenericSerif, 32);
+        private Font characterFont = new(FontFamily.GenericSerif, 32);
 
         public Font CharacterFont
         {
-            get { return font; }
+            get { return characterFont; }
             set
             {
-                font = value;
+                characterFont = value;
             }
         }
 
@@ -71,25 +70,7 @@ namespace AtxFontCreator
                 sourceRect = value;
                 this.Width = (int)Math.Ceiling(sourceRect.Width);
                 this.Height = (int)Math.Ceiling(sourceRect.Height);
-                PaintDestinationBitmap();
                 SourceRectChanged?.Invoke(this, EventArgs.Empty);
-            }
-        }
-
-        private Bitmap destinationBitmap = new(1,1);
-
-        public Bitmap DestinationBitmap
-        {
-            get { return destinationBitmap; }
-            set
-            {
-                if (destinationBitmap == value)
-                {
-                    return;
-                }
-
-                destinationBitmap = value;
-                PaintDestinationBitmap();
             }
         }
 
@@ -106,29 +87,14 @@ namespace AtxFontCreator
             get
             {
                 GraphicsPath path = new();
-                path.AddString(character.ToString(), font.FontFamily, (int)font.Style, font.Size, new PointF(0, 0), CentreFormat());
+                path.AddString(character.ToString(), characterFont.FontFamily, (int)characterFont.Style, characterFont.Size, new PointF(0, 0), CentreFormat());
                 return path.GetBounds();
             }
         }
 
         public bool Include { get; set; }
 
-        private void PaintDestinationBitmap()
-        {
-            Graphics g = Graphics.FromImage(DestinationBitmap);
-            SolidBrush solidBrush = new(Color.White);
-            GraphicsPath path = new();
-            path.AddString(character.ToString(), font.FontFamily, (int)font.Style, font.Size, new PointF(-sourceRect.X, -sourceRect.Y), CentreFormat());
-            g.TextRenderingHint = TextRenderingHint.SingleBitPerPixel;
-            if (sourceRect.Height > 0)
-            {
-                g.ScaleTransform((float)destinationBitmap.Width / (float)sourceRect.Width, (float)destinationBitmap.Height / (float)sourceRect.Height);
-            }
-
-            g.FillPath(solidBrush, path);
-        }
-
-        private static StringFormat CentreFormat()
+        public static StringFormat CentreFormat()
         {
             StringFormat stringFormat = StringFormat.GenericDefault;
             stringFormat.Alignment = StringAlignment.Center;
@@ -140,7 +106,7 @@ namespace AtxFontCreator
         {
             SolidBrush solidBrush = new(Color.White);
             GraphicsPath path = new();
-            path.AddString(character.ToString(), font.FontFamily, (int)font.Style, font.Size, new PointF(-sourceRect.X, -sourceRect.Y), CentreFormat());
+            path.AddString(character.ToString(), characterFont.FontFamily, (int)characterFont.Style, characterFont.Size, new PointF(-sourceRect.X, -sourceRect.Y), CentreFormat());
             e.Graphics.TextRenderingHint = TextRenderingHint.SingleBitPerPixel;
             Pen pen = (sourceRect.Top == SourceBoundingBox.Top ||
                 sourceRect.Right == SourceBoundingBox.Right ||
