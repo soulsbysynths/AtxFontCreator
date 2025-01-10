@@ -33,10 +33,8 @@
             // 
             // lblCharacter
             // 
-            lblCharacter.AutoSize = true;
-            lblCharacter.BackColor = SystemColors.Control;
-            lblCharacter.BorderStyle = BorderStyle.Fixed3D;
-            lblCharacter.ForeColor = SystemColors.ControlText;
+            lblCharacter.BackColor = Color.Transparent;
+            lblCharacter.ForeColor = Color.White;
             lblCharacter.Location = new Point(0, 0);
             lblCharacter.Margin = new Padding(0);
             lblCharacter.Name = "lblCharacter";
@@ -54,10 +52,10 @@
             Controls.Add(lblCharacter);
             Name = "FontCharacter";
             Size = new Size(144, 125);
+            SizeChanged += FontCharacter_SizeChanged;
             Click += FontCharacter_Click;
             Paint += FontCharacter_Paint;
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion

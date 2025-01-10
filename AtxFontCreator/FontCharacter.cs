@@ -8,9 +8,11 @@ namespace AtxFontCreator
     public partial class FontCharacter : UserControl
     {
         public event EventHandler? SelectedChanged;
-        public FontCharacter()
+        public event EventHandler? SourceRectChanged;
+        public FontCharacter(Size destinationSize)
         {
             InitializeComponent();
+            DestinationBitmap = new Bitmap(destinationSize.Width, destinationSize.Height);
         }
         private char character = 'A';
 
@@ -20,7 +22,7 @@ namespace AtxFontCreator
             set
             {
                 character = value;
-                lblCharacter.Text = character.ToString();
+                lblCharacter.Text = ((int)character).ToString() + Environment.NewLine + character.ToString();
             }
         }
 
@@ -70,10 +72,11 @@ namespace AtxFontCreator
                 this.Width = (int)Math.Ceiling(sourceRect.Width);
                 this.Height = (int)Math.Ceiling(sourceRect.Height);
                 PaintDestinationBitmap();
+                SourceRectChanged?.Invoke(this, EventArgs.Empty);
             }
         }
 
-        private Bitmap destinationBitmap = new(66, 92);
+        private Bitmap destinationBitmap = new(1,1);
 
         public Bitmap DestinationBitmap
         {
@@ -155,6 +158,12 @@ namespace AtxFontCreator
         private void FontCharacter_Click(object sender, EventArgs e)
         {
             Selected = !selected;
+        }
+
+        private void FontCharacter_SizeChanged(object sender, EventArgs e)
+        {
+            lblCharacter.Size = Size;
+            lblCharacter.BackColor = Color.FromArgb(192, 0, 0, 0);
         }
     }
 }

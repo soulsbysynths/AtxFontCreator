@@ -38,6 +38,13 @@
             numHeight = new NumericUpDown();
             numWidth = new NumericUpDown();
             label3 = new Label();
+            groupBox3 = new GroupBox();
+            numBBY = new NumericUpDown();
+            numBBX = new NumericUpDown();
+            label2 = new Label();
+            numBBHeight = new NumericUpDown();
+            numBBWidth = new NumericUpDown();
+            label1 = new Label();
             groupBox1 = new GroupBox();
             btnSetBoundingBoxes = new Button();
             chkIncludeNumbers = new CheckBox();
@@ -53,13 +60,19 @@
             groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)numHeight).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numWidth).BeginInit();
+            groupBox3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)numBBY).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)numBBX).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)numBBHeight).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)numBBWidth).BeginInit();
             groupBox1.SuspendLayout();
             SuspendLayout();
             // 
             // lblFont
             // 
             lblFont.AutoSize = true;
-            lblFont.Location = new Point(3, 48);
+            lblFont.Dock = DockStyle.Top;
+            lblFont.Location = new Point(0, 0);
             lblFont.Name = "lblFont";
             lblFont.Size = new Size(0, 15);
             lblFont.TabIndex = 8;
@@ -78,6 +91,7 @@
             splitContainer1.Panel1.Controls.Add(chkShowLabels);
             splitContainer1.Panel1.Controls.Add(atxCharacter1);
             splitContainer1.Panel1.Controls.Add(groupBox2);
+            splitContainer1.Panel1.Controls.Add(groupBox3);
             splitContainer1.Panel1.Controls.Add(groupBox1);
             splitContainer1.Panel1.Controls.Add(btnFont);
             splitContainer1.Panel1.Padding = new Padding(4);
@@ -85,6 +99,7 @@
             // splitContainer1.Panel2
             // 
             splitContainer1.Panel2.Controls.Add(flpFontConverter);
+            splitContainer1.Panel2.Controls.Add(lblFont);
             splitContainer1.Size = new Size(1102, 595);
             splitContainer1.SplitterDistance = 135;
             splitContainer1.SplitterWidth = 2;
@@ -94,7 +109,7 @@
             // 
             chkShowLabels.AutoSize = true;
             chkShowLabels.Dock = DockStyle.Left;
-            chkShowLabels.Location = new Point(408, 4);
+            chkShowLabels.Location = new Point(530, 4);
             chkShowLabels.Name = "chkShowLabels";
             chkShowLabels.Size = new Size(91, 127);
             chkShowLabels.TabIndex = 13;
@@ -107,7 +122,7 @@
             atxCharacter1.BackColor = Color.FromArgb(224, 224, 224);
             atxCharacter1.Character = '\0';
             atxCharacter1.Dock = DockStyle.Left;
-            atxCharacter1.Location = new Point(345, 4);
+            atxCharacter1.Location = new Point(467, 4);
             atxCharacter1.Name = "atxCharacter1";
             atxCharacter1.PixelSize = new Size(8, 16);
             atxCharacter1.Selected = true;
@@ -120,7 +135,7 @@
             groupBox2.Controls.Add(numWidth);
             groupBox2.Controls.Add(label3);
             groupBox2.Dock = DockStyle.Left;
-            groupBox2.Location = new Point(223, 4);
+            groupBox2.Location = new Point(345, 4);
             groupBox2.Margin = new Padding(2);
             groupBox2.Name = "groupBox2";
             groupBox2.Padding = new Padding(2);
@@ -131,7 +146,7 @@
             // 
             // numHeight
             // 
-            numHeight.Location = new Point(72, 18);
+            numHeight.Location = new Point(74, 17);
             numHeight.Maximum = new decimal(new int[] { 255, 0, 0, 0 });
             numHeight.Name = "numHeight";
             numHeight.Size = new Size(42, 23);
@@ -141,7 +156,7 @@
             // 
             // numWidth
             // 
-            numWidth.Location = new Point(5, 19);
+            numWidth.Location = new Point(7, 18);
             numWidth.Maximum = new decimal(new int[] { 255, 0, 0, 0 });
             numWidth.Name = "numWidth";
             numWidth.Size = new Size(42, 23);
@@ -152,11 +167,89 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(53, 20);
+            label3.Location = new Point(55, 19);
             label3.Name = "label3";
-            label3.Size = new Size(13, 15);
+            label3.Size = new Size(12, 15);
             label3.TabIndex = 8;
             label3.Text = "x";
+            // 
+            // groupBox3
+            // 
+            groupBox3.Controls.Add(numBBY);
+            groupBox3.Controls.Add(numBBX);
+            groupBox3.Controls.Add(label2);
+            groupBox3.Controls.Add(numBBHeight);
+            groupBox3.Controls.Add(numBBWidth);
+            groupBox3.Controls.Add(label1);
+            groupBox3.Dock = DockStyle.Left;
+            groupBox3.Location = new Point(223, 4);
+            groupBox3.Margin = new Padding(2);
+            groupBox3.Name = "groupBox3";
+            groupBox3.Padding = new Padding(2);
+            groupBox3.Size = new Size(122, 127);
+            groupBox3.TabIndex = 14;
+            groupBox3.TabStop = false;
+            groupBox3.Text = "Bounding Box";
+            // 
+            // numBBY
+            // 
+            numBBY.Location = new Point(74, 51);
+            numBBY.Maximum = new decimal(new int[] { 32767, 0, 0, 0 });
+            numBBY.Minimum = new decimal(new int[] { 32768, 0, 0, int.MinValue });
+            numBBY.Name = "numBBY";
+            numBBY.Size = new Size(42, 23);
+            numBBY.TabIndex = 12;
+            numBBY.ValueChanged += NumBB_ValueChanged;
+            // 
+            // numBBX
+            // 
+            numBBX.Location = new Point(7, 52);
+            numBBX.Maximum = new decimal(new int[] { 32767, 0, 0, 0 });
+            numBBX.Minimum = new decimal(new int[] { 32768, 0, 0, int.MinValue });
+            numBBX.Name = "numBBX";
+            numBBX.Size = new Size(42, 23);
+            numBBX.TabIndex = 10;
+            numBBX.ValueChanged += NumBB_ValueChanged;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(55, 61);
+            label2.Name = "label2";
+            label2.Size = new Size(10, 15);
+            label2.TabIndex = 11;
+            label2.Text = ",";
+            // 
+            // numBBHeight
+            // 
+            numBBHeight.Location = new Point(74, 17);
+            numBBHeight.Maximum = new decimal(new int[] { 32767, 0, 0, 0 });
+            numBBHeight.Minimum = new decimal(new int[] { 32768, 0, 0, int.MinValue });
+            numBBHeight.Name = "numBBHeight";
+            numBBHeight.Size = new Size(42, 23);
+            numBBHeight.TabIndex = 9;
+            numBBHeight.Value = new decimal(new int[] { 16, 0, 0, 0 });
+            numBBHeight.ValueChanged += NumBB_ValueChanged;
+            // 
+            // numBBWidth
+            // 
+            numBBWidth.Location = new Point(7, 18);
+            numBBWidth.Maximum = new decimal(new int[] { 32767, 0, 0, 0 });
+            numBBWidth.Minimum = new decimal(new int[] { 32768, 0, 0, int.MinValue });
+            numBBWidth.Name = "numBBWidth";
+            numBBWidth.Size = new Size(42, 23);
+            numBBWidth.TabIndex = 7;
+            numBBWidth.Value = new decimal(new int[] { 8, 0, 0, 0 });
+            numBBWidth.ValueChanged += NumBB_ValueChanged;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(54, 18);
+            label1.Name = "label1";
+            label1.Size = new Size(12, 15);
+            label1.TabIndex = 8;
+            label1.Text = "x";
             // 
             // groupBox1
             // 
@@ -248,9 +341,9 @@
             flpFontConverter.BackColor = SystemColors.ControlDark;
             flpFontConverter.BorderStyle = BorderStyle.Fixed3D;
             flpFontConverter.Dock = DockStyle.Fill;
-            flpFontConverter.Location = new Point(0, 0);
+            flpFontConverter.Location = new Point(0, 15);
             flpFontConverter.Name = "flpFontConverter";
-            flpFontConverter.Size = new Size(1102, 458);
+            flpFontConverter.Size = new Size(1102, 443);
             flpFontConverter.TabIndex = 8;
             // 
             // FontEditor
@@ -259,7 +352,6 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1102, 595);
             Controls.Add(splitContainer1);
-            Controls.Add(lblFont);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(2);
             Name = "FontEditor";
@@ -269,16 +361,22 @@
             splitContainer1.Panel1.ResumeLayout(false);
             splitContainer1.Panel1.PerformLayout();
             splitContainer1.Panel2.ResumeLayout(false);
+            splitContainer1.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
             splitContainer1.ResumeLayout(false);
             groupBox2.ResumeLayout(false);
             groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)numHeight).EndInit();
             ((System.ComponentModel.ISupportInitialize)numWidth).EndInit();
+            groupBox3.ResumeLayout(false);
+            groupBox3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)numBBY).EndInit();
+            ((System.ComponentModel.ISupportInitialize)numBBX).EndInit();
+            ((System.ComponentModel.ISupportInitialize)numBBHeight).EndInit();
+            ((System.ComponentModel.ISupportInitialize)numBBWidth).EndInit();
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
@@ -299,5 +397,12 @@
         private Button btnSetBoundingBoxes;
         private AtxCharacter atxCharacter1;
         private CheckBox chkShowLabels;
+        private GroupBox groupBox3;
+        private NumericUpDown numBBY;
+        private NumericUpDown numBBX;
+        private Label label2;
+        private NumericUpDown numBBHeight;
+        private NumericUpDown numBBWidth;
+        private Label label1;
     }
 }

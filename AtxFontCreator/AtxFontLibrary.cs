@@ -15,11 +15,13 @@ namespace AtxFontCreator
 {
     public partial class AtxFontLibrary : Form
     {
-        public List<AtxFont> Fonts { get; set; } = [];
+        public BindingList<AtxFont> Fonts { get; set; } = [];
 
         public AtxFontLibrary()
         {
             InitializeComponent();
+            lstAtxFontLibrary.DataSource = Fonts;
+            lstAtxFontLibrary.DisplayMember = "FontName";
             PopulateFontLibrary();
             if (Fonts.Count == 0)
             {
@@ -37,8 +39,7 @@ namespace AtxFontCreator
                 CharacterCount = 95,
             });
 
-            lstAtxFontLibrary.DataSource = Fonts;
-            lstAtxFontLibrary.DisplayMember = "FontName";
+            lstAtxFontLibrary.Refresh();
         }
 
         public void ImportFont(string filePath)
@@ -52,8 +53,6 @@ namespace AtxFontCreator
             else
             {
                 Fonts.Add(newFont);
-                lstAtxFontLibrary.DataSource = Fonts;
-                lstAtxFontLibrary.DisplayMember = "FontName";
             }
             reader.Close();
         }
@@ -70,7 +69,7 @@ namespace AtxFontCreator
         {
             get
             {
-                Span<AtxFont> span = CollectionsMarshal.AsSpan(Fonts);
+                Span<AtxFont> span = CollectionsMarshal.AsSpan(Fonts.ToList<AtxFont>());
                 return ref span[lstAtxFontLibrary.SelectedIndex];
             }
         }
@@ -108,9 +107,6 @@ namespace AtxFontCreator
                 reader.Close();
                 file.Close();
             }
-
-            lstAtxFontLibrary.DataSource = Fonts;
-            lstAtxFontLibrary.DisplayMember = "FontName";
         }
     }
 }
