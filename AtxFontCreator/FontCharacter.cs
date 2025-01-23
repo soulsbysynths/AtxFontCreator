@@ -33,6 +33,7 @@ namespace AtxFontCreator
             set
             {
                 characterFont = value;
+                Invalidate();
             }
         }
 
@@ -70,6 +71,7 @@ namespace AtxFontCreator
                 sourceRect = value;
                 this.Width = (int)Math.Ceiling(sourceRect.Width);
                 this.Height = (int)Math.Ceiling(sourceRect.Height);
+                Invalidate();
                 SourceRectChanged?.Invoke(this, EventArgs.Empty);
             }
         }
@@ -113,7 +115,10 @@ namespace AtxFontCreator
                 sourceRect.Bottom == SourceBoundingBox.Bottom ||
                 sourceRect.Left == SourceBoundingBox.Left) ?
                 new Pen(Color.Cyan) : new Pen(Color.DarkGray);
-            e.Graphics.DrawRectangle(pen, path.GetBounds());
+            if (Include)
+            {
+                e.Graphics.DrawRectangle(pen, path.GetBounds());
+            }
             e.Graphics.FillPath(solidBrush, path);
             if (selected)
             {

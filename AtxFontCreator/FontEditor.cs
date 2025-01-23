@@ -17,6 +17,16 @@ namespace AtxFontCreator
 {
     public partial class FontEditor : Form
     {
+        [Flags]
+        private enum IncludeCharactersTypes
+        {
+            None = 0,
+            Numbers = 1,
+            Characters = 2,
+            Punctuation = 4,
+            Misc = 8
+        }
+
         private int selectedCharacterIndex = 0;
         public FontEditor()
         {
@@ -37,10 +47,9 @@ namespace AtxFontCreator
                 flpFontConverter.Controls.Add(character);
             }
 
-            SetIncludeCharacters(IncludeCharacters.Characters | IncludeCharacters.Numbers);
+            IncludeCharacters = (IncludeCharactersTypes.Characters | IncludeCharactersTypes.Numbers);
             SetAllSourceRects();
-            RefreshFontCharacters();
-            RefreshFontInfo();
+            RefreshAllCharacters();
         }
 
         public Span<FontCharacter> FontsSpan
@@ -75,7 +84,25 @@ namespace AtxFontCreator
                 numWidth.Value = outputSize.Width;
                 numHeight.Value = outputSize.Height;
                 atxCharacter1.PixelSize = outputSize;
-                flpFontConverter.SuspendLayout();
+                RefreshSelectedCharacter();
+            }
+        }
+
+        private IncludeCharactersTypes includeCharacters = IncludeCharactersTypes.None;
+        private IncludeCharactersTypes IncludeCharacters
+        {
+            set
+            {
+                if (includeCharacters == value)
+                {
+                    return;
+                }
+
+                includeCharacters = value;
+                chkIncludeNumbers.Checked = includeCharacters.HasFlag(IncludeCharactersTypes.Numbers);
+                chkIncludeCharacters.Checked = includeCharacters.HasFlag(IncludeCharactersTypes.Characters);
+                chkIncludePunctuation.Checked = includeCharacters.HasFlag(IncludeCharactersTypes.Punctuation);
+                chkIncludeMisc.Checked = includeCharacters.HasFlag(IncludeCharactersTypes.Misc);
                 foreach (Control c in flpFontConverter.Controls)
                 {
                     if (c is not FontCharacter)
@@ -84,83 +111,54 @@ namespace AtxFontCreator
                     }
 
                     FontCharacter character = (FontCharacter)c;
+                    char ch = character.Character;
+                    if (ch >= 127)
+                    {
+                        character.Include = includeCharacters.HasFlag(IncludeCharactersTypes.Misc);
+                    }
+                    else if (ch >= 123)
+                    {
+                        character.Include = includeCharacters.HasFlag(IncludeCharactersTypes.Punctuation);
+                    }
+                    else if (ch >= 97)
+                    {
+                        character.Include = includeCharacters.HasFlag(IncludeCharactersTypes.Characters);
+                    }
+                    else if (ch >= 91)
+                    {
+                        character.Include = includeCharacters.HasFlag(IncludeCharactersTypes.Punctuation);
+                    }
+                    else if (ch >= 65)
+                    {
+                        character.Include = includeCharacters.HasFlag(IncludeCharactersTypes.Characters);
+                    }
+                    else if (ch >= 58)
+                    {
+                        character.Include = includeCharacters.HasFlag(IncludeCharactersTypes.Punctuation);
+                    }
+                    else if (ch >= 48)
+                    {
+                        character.Include = includeCharacters.HasFlag(IncludeCharactersTypes.Numbers);
+                    }
+                    else if (ch >= 33)
+                    {
+                        character.Include = includeCharacters.HasFlag(IncludeCharactersTypes.Punctuation);
+                    }
+                    else
+                    {
+                        character.Include = includeCharacters.HasFlag(IncludeCharactersTypes.Misc);
+                    }
                 }
-                flpFontConverter.ResumeLayout();
-                RefreshSelectedCharacter();
+
+                RefreshAllCharacters();
             }
-        }
-
-
-        [Flags]
-        private enum IncludeCharacters
-        {
-            None = 0,
-            Numbers = 1,
-            Characters = 2,
-            Punctuation = 4,
-            Misc = 8
-        }
-
-        private void SetIncludeCharacters(IncludeCharacters include)
-        {
-            chkIncludeNumbers.Checked = include.HasFlag(IncludeCharacters.Numbers);
-            chkIncludeCharacters.Checked = include.HasFlag(IncludeCharacters.Characters);
-            chkIncludePunctuation.Checked = include.HasFlag(IncludeCharacters.Punctuation);
-            chkIncludeMisc.Checked = include.HasFlag(IncludeCharacters.Misc);
-            foreach (Control c in flpFontConverter.Controls)
-            {
-                if (c is not FontCharacter)
-                {
-                    continue;
-                }
-
-                FontCharacter character = (FontCharacter)c;
-                char ch = character.Character;
-                if (ch >= 127)
-                {
-                    character.Include = include.HasFlag(IncludeCharacters.Misc);
-                }
-                else if (ch >= 123)
-                {
-                    character.Include = include.HasFlag(IncludeCharacters.Punctuation);
-                }
-                else if (ch >= 97)
-                {
-                    character.Include = include.HasFlag(IncludeCharacters.Characters);
-                }
-                else if (ch >= 91)
-                {
-                    character.Include = include.HasFlag(IncludeCharacters.Punctuation);
-                }
-                else if (ch >= 65)
-                {
-                    character.Include = include.HasFlag(IncludeCharacters.Characters);
-                }
-                else if (ch >= 58)
-                {
-                    character.Include = include.HasFlag(IncludeCharacters.Punctuation);
-                }
-                else if (ch >= 48)
-                {
-                    character.Include = include.HasFlag(IncludeCharacters.Numbers);
-                }
-                else if (ch >= 33)
-                {
-                    character.Include = include.HasFlag(IncludeCharacters.Punctuation);
-                }
-                else
-                {
-                    character.Include = include.HasFlag(IncludeCharacters.Misc);
-                }
-            }
-
-            RefreshFontCharacters();
         }
 
         private void BtnFont_Click(object sender, EventArgs e)
         {
             fontDialog1.ShowDialog();
-            RefreshFontCharacters();
+            SetAllSourceRects();
+            RefreshAllCharacters();
         }
 
         private void FontCharacter_SourceRectChanged(object? sender, EventArgs e)
@@ -214,32 +212,42 @@ namespace AtxFontCreator
             numBBHeight.Value = (decimal)SelectedCharacter.SourceRect.Height;
             numBBX.Value = (decimal)SelectedCharacter.SourceRect.X;
             numBBY.Value = (decimal)SelectedCharacter.SourceRect.Y;
+            lblFont.Text = SelectedCharacter.CharacterFont.Name + ", " + SelectedCharacter.CharacterFont.Style + ", " + SelectedCharacter.CharacterFont.Size + "pt";
+            if (SelectedCharacter.CharacterFont.Strikeout)
+            {
+                lblFont.Text += ", Strikeout";
+            }
+
+            if (SelectedCharacter.CharacterFont.Underline)
+            {
+                lblFont.Text += ", Underline";
+            }
+
+            String format = "0";
+            RectangleF rect = SelectedCharacter.SourceRect;
+            lblFont.Text += ", rect = " +
+                rect.Width.ToString(format) +
+                "x" +
+                rect.Height.ToString(format) +
+                " at (" +
+                rect.Location.X.ToString(format) +
+                "," +
+                rect.Location.Y.ToString(format) +
+                ")";
         }
 
-        private void ChkInclude_CheckedChanged(object sender, EventArgs e)
+        private void WriteIncludeFlag(IncludeCharactersTypes flag, bool way)
         {
-            IncludeCharacters newInclude = IncludeCharacters.None;
-            if (chkIncludeNumbers.Checked)
+            IncludeCharactersTypes newInclude = includeCharacters;
+            if (way)
             {
-                newInclude |= IncludeCharacters.Numbers;
+                newInclude |= flag;
             }
-
-            if (chkIncludeCharacters.Checked)
+            else
             {
-                newInclude |= IncludeCharacters.Characters;
+                newInclude &= ~flag;
             }
-
-            if (chkIncludePunctuation.Checked)
-            {
-                newInclude |= IncludeCharacters.Punctuation;
-            }
-
-            if (chkIncludeMisc.Checked)
-            {
-                newInclude |= IncludeCharacters.Misc;
-            }
-
-            SetIncludeCharacters(newInclude);
+            IncludeCharacters = newInclude;
         }
 
         private void NumWidth_ValueChanged(object sender, EventArgs e)
@@ -254,6 +262,7 @@ namespace AtxFontCreator
 
         public void SetAllSourceRects()
         {
+            flpFontConverter.SuspendLayout();
             RectangleF sourceRect = new();
             bool rectInitialised = false;
             foreach (Control c in flpFontConverter.Controls)
@@ -289,9 +298,11 @@ namespace AtxFontCreator
                 FontCharacter character = (FontCharacter)c;
                 character.SourceRect = sourceRect;
             }
+
+            flpFontConverter.ResumeLayout();
         }
 
-        private void RefreshFontCharacters()
+        private void RefreshAllCharacters()
         {
             foreach (Control c in flpFontConverter.Controls)
             {
@@ -303,32 +314,8 @@ namespace AtxFontCreator
                 FontCharacter character = (FontCharacter)c;
                 character.Refresh();
             }
-        }
 
-        private void RefreshFontInfo()
-        {
-            lblFont.Text = fontDialog1.Font.Name + ", " + fontDialog1.Font.Style + ", " + fontDialog1.Font.Size + "pt";
-            if (fontDialog1.Font.Strikeout)
-            {
-                lblFont.Text += ", Strikeout";
-            }
-
-            if (fontDialog1.Font.Underline)
-            {
-                lblFont.Text += ", Underline";
-            }
-
-            String format = "0";
-            RectangleF rect = SelectedCharacter.SourceRect;
-            lblFont.Text += ", rect = " +
-                rect.Width.ToString(format) +
-                "x" +
-                rect.Height.ToString(format) +
-                " at (" +
-                rect.Location.X.ToString(format) +
-                "," +
-                rect.Location.Y.ToString(format) +
-                ")";
+            RefreshSelectedCharacter();
         }
 
         public void CopyToAtxFont(ref AtxFont destinationFont)
@@ -403,10 +390,57 @@ namespace AtxFontCreator
             }
         }
 
-        private void NumBB_ValueChanged(object sender, EventArgs e)
+        private void NumBBWidth_ValueChanged(object sender, EventArgs e)
         {
-            RectangleF newRect = new ((float)numBBX.Value, (float)numBBY.Value, (float)numBBWidth.Value, (float)numBBHeight.Value);
-            //SelectedCharacter.SourceRect = newRect;
+            SelectedCharacter.SourceRect = new RectangleF(SelectedCharacter.SourceRect.X, SelectedCharacter.SourceRect.Y, (float)numBBWidth.Value, SelectedCharacter.SourceRect.Height);
+        }
+
+        private void NumBBHeight_ValueChanged(object sender, EventArgs e)
+        {
+            SelectedCharacter.SourceRect = new RectangleF(SelectedCharacter.SourceRect.X, SelectedCharacter.SourceRect.Y, SelectedCharacter.SourceRect.Width, (float)numBBHeight.Value);
+        }
+
+        private void NumBBX_ValueChanged(object sender, EventArgs e)
+        {
+            SelectedCharacter.SourceRect = new RectangleF((float)numBBX.Value, SelectedCharacter.SourceRect.Y, SelectedCharacter.SourceRect.Width, SelectedCharacter.SourceRect.Height);
+        }
+
+        private void NumBBY_ValueChanged(object sender, EventArgs e)
+        {
+            SelectedCharacter.SourceRect = new RectangleF(SelectedCharacter.SourceRect.X, (float)numBBY.Value, SelectedCharacter.SourceRect.Width, SelectedCharacter.SourceRect.Height);
+        }
+
+        private void BtnSelectedFont_Click(object sender, EventArgs e)
+        {
+            fontDialog1.ShowDialog();
+            SelectedCharacter.CharacterFont = fontDialog1.Font;
+            RefreshSelectedCharacter();
+        }
+
+        private void BtnSetBoundingBoxes_Click(object sender, EventArgs e)
+        {
+            SetAllSourceRects();
+            RefreshAllCharacters();
+        }
+
+        private void ChkIncludeCharacters_CheckedChanged(object sender, EventArgs e)
+        {
+            WriteIncludeFlag(IncludeCharactersTypes.Characters, chkIncludeCharacters.Checked);
+        }
+
+        private void ChkIncludePunctuation_CheckedChanged(object sender, EventArgs e)
+        {
+            WriteIncludeFlag(IncludeCharactersTypes.Punctuation, chkIncludePunctuation.Checked);
+        }
+
+        private void ChkIncludeMisc_CheckedChanged(object sender, EventArgs e)
+        {
+            WriteIncludeFlag(IncludeCharactersTypes.Misc, chkIncludeMisc.Checked);
+        }
+
+        private void ChkIncludeNumbers_CheckedChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
