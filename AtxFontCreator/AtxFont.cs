@@ -17,6 +17,7 @@ namespace AtxFontCreator
         public event EventHandler? PixelSizeChanged;
         public event EventHandler? StartCharacterChanged;
         public event EventHandler? CharacterCountChanged;
+        public event EventHandler? NameChanged;
         private string fontName = "";
         private Size pixelSize;
         private int startCharacter;
@@ -65,8 +66,15 @@ namespace AtxFontCreator
             get { return fontName; }
             set
             {
+                if (fontName == value)
+                {
+                    return;
+                }
+
                 fontName = value;
                 txtFontName.Text = fontName;
+
+                //NameChanged?.Invoke(this, EventArgs.Empty);
             }
         }
 
@@ -130,7 +138,7 @@ namespace AtxFontCreator
 
         private void TxtFontName_TextChanged(object sender, EventArgs e)
         {
-            FontName = txtFontName.Text;
+            //FontName = txtFontName.Text;
         }
 
         private void NumWidth_ValueChanged(object sender, EventArgs e)

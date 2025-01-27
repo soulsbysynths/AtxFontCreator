@@ -315,7 +315,7 @@
             // 
             // numCharacterCount
             // 
-            numCharacterCount.Location = new Point(108, 83);
+            numCharacterCount.Location = new Point(99, 84);
             numCharacterCount.Maximum = new decimal(new int[] { 255, 0, 0, 0 });
             numCharacterCount.Name = "numCharacterCount";
             numCharacterCount.Size = new Size(42, 23);
@@ -325,7 +325,7 @@
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(5, 85);
+            label5.Location = new Point(5, 86);
             label5.Margin = new Padding(3);
             label5.Name = "label5";
             label5.Size = new Size(97, 15);
@@ -335,9 +335,9 @@
             // lblStartCharacter
             // 
             lblStartCharacter.BorderStyle = BorderStyle.FixedSingle;
-            lblStartCharacter.Location = new Point(147, 61);
+            lblStartCharacter.Location = new Point(154, 61);
             lblStartCharacter.Name = "lblStartCharacter";
-            lblStartCharacter.Size = new Size(27, 19);
+            lblStartCharacter.Size = new Size(42, 23);
             lblStartCharacter.TabIndex = 13;
             lblStartCharacter.TextAlign = ContentAlignment.MiddleCenter;
             // 
@@ -353,7 +353,7 @@
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(5, 62);
+            label4.Location = new Point(5, 63);
             label4.Margin = new Padding(3);
             label4.Name = "label4";
             label4.Size = new Size(88, 15);
@@ -371,7 +371,7 @@
             // 
             // numWidth
             // 
-            numWidth.Location = new Point(87, 38);
+            numWidth.Location = new Point(99, 38);
             numWidth.Maximum = new decimal(new int[] { 255, 0, 0, 0 });
             numWidth.Name = "numWidth";
             numWidth.Size = new Size(42, 23);
@@ -381,9 +381,9 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(134, 40);
+            label3.Location = new Point(142, 40);
             label3.Name = "label3";
-            label3.Size = new Size(13, 15);
+            label3.Size = new Size(12, 15);
             label3.TabIndex = 8;
             label3.Text = "x";
             // 
@@ -393,7 +393,7 @@
             label2.Location = new Point(5, 40);
             label2.Margin = new Padding(3);
             label2.Name = "label2";
-            label2.Size = new Size(57, 15);
+            label2.Size = new Size(56, 15);
             label2.TabIndex = 7;
             label2.Text = "Pixel size:";
             // 
@@ -403,7 +403,7 @@
             txtFontName.Name = "txtFontName";
             txtFontName.Size = new Size(144, 23);
             txtFontName.TabIndex = 4;
-            txtFontName.TextChanged += TxtFontName_TextChanged;
+            txtFontName.WordWrap = false;
             // 
             // label1
             // 

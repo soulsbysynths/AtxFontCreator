@@ -108,5 +108,10 @@ namespace AtxFontCreator
                 file.Close();
             }
         }
+
+        private void AtxFont1_NameChanged(object sender, EventArgs e)
+        {
+            lstAtxFontLibrary.Refresh();
+        }
     }
 }

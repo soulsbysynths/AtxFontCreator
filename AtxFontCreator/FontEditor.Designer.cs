@@ -33,6 +33,7 @@
             fontDialog1 = new FontDialog();
             splitContainer1 = new SplitContainer();
             grpSelectedChar = new GroupBox();
+            atxCharacter1 = new AtxCharacter();
             btnSelectedFont = new Button();
             grpBB = new GroupBox();
             numBBY = new NumericUpDown();
@@ -41,7 +42,6 @@
             numBBHeight = new NumericUpDown();
             numBBWidth = new NumericUpDown();
             label1 = new Label();
-            atxCharacter1 = new AtxCharacter();
             grpAllChars = new GroupBox();
             chkShowLabels = new CheckBox();
             grpIncludeBB = new GroupBox();
@@ -108,21 +108,34 @@
             // 
             // grpSelectedChar
             // 
+            grpSelectedChar.AutoSize = true;
+            grpSelectedChar.Controls.Add(atxCharacter1);
             grpSelectedChar.Controls.Add(btnSelectedFont);
             grpSelectedChar.Controls.Add(grpBB);
-            grpSelectedChar.Controls.Add(atxCharacter1);
             grpSelectedChar.Dock = DockStyle.Left;
             grpSelectedChar.Location = new Point(448, 4);
             grpSelectedChar.Name = "grpSelectedChar";
-            grpSelectedChar.Size = new Size(284, 154);
+            grpSelectedChar.Size = new Size(255, 154);
             grpSelectedChar.TabIndex = 16;
             grpSelectedChar.TabStop = false;
             grpSelectedChar.Text = "Modify Selected Character";
             // 
+            // atxCharacter1
+            // 
+            atxCharacter1.BackColor = Color.FromArgb(224, 224, 224);
+            atxCharacter1.Character = '\0';
+            atxCharacter1.Dock = DockStyle.Left;
+            atxCharacter1.Location = new Point(186, 19);
+            atxCharacter1.Name = "atxCharacter1";
+            atxCharacter1.PixelSize = new Size(8, 16);
+            atxCharacter1.Selected = true;
+            atxCharacter1.Size = new Size(66, 132);
+            atxCharacter1.TabIndex = 12;
+            // 
             // btnSelectedFont
             // 
             btnSelectedFont.Dock = DockStyle.Left;
-            btnSelectedFont.Location = new Point(191, 19);
+            btnSelectedFont.Location = new Point(125, 19);
             btnSelectedFont.Name = "btnSelectedFont";
             btnSelectedFont.Size = new Size(61, 132);
             btnSelectedFont.TabIndex = 15;
@@ -139,7 +152,7 @@
             grpBB.Controls.Add(numBBWidth);
             grpBB.Controls.Add(label1);
             grpBB.Dock = DockStyle.Left;
-            grpBB.Location = new Point(69, 19);
+            grpBB.Location = new Point(3, 19);
             grpBB.Margin = new Padding(2);
             grpBB.Name = "grpBB";
             grpBB.Padding = new Padding(2);
@@ -207,18 +220,6 @@
             label1.Size = new Size(12, 15);
             label1.TabIndex = 8;
             label1.Text = "x";
-            // 
-            // atxCharacter1
-            // 
-            atxCharacter1.BackColor = Color.FromArgb(224, 224, 224);
-            atxCharacter1.Character = '\0';
-            atxCharacter1.Dock = DockStyle.Left;
-            atxCharacter1.Location = new Point(3, 19);
-            atxCharacter1.Name = "atxCharacter1";
-            atxCharacter1.PixelSize = new Size(8, 16);
-            atxCharacter1.Selected = true;
-            atxCharacter1.Size = new Size(66, 132);
-            atxCharacter1.TabIndex = 12;
             // 
             // grpAllChars
             // 
@@ -399,6 +400,7 @@
             ShowInTaskbar = false;
             Text = "System Font Converter";
             splitContainer1.Panel1.ResumeLayout(false);
+            splitContainer1.Panel1.PerformLayout();
             splitContainer1.Panel2.ResumeLayout(false);
             splitContainer1.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();

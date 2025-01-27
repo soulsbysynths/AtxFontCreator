@@ -125,27 +125,27 @@
             // libraryToolStripMenuItem1
             // 
             libraryToolStripMenuItem1.Name = "libraryToolStripMenuItem1";
-            libraryToolStripMenuItem1.Size = new Size(180, 22);
+            libraryToolStripMenuItem1.Size = new Size(173, 22);
             libraryToolStripMenuItem1.Text = "ATX Font Library";
             libraryToolStripMenuItem1.Click += LibraryToolStripMenuItem1_Click;
             // 
             // systemFontEditorToolStripMenuItem
             // 
             systemFontEditorToolStripMenuItem.Name = "systemFontEditorToolStripMenuItem";
-            systemFontEditorToolStripMenuItem.Size = new Size(180, 22);
+            systemFontEditorToolStripMenuItem.Size = new Size(173, 22);
             systemFontEditorToolStripMenuItem.Text = "System Font Editor";
             systemFontEditorToolStripMenuItem.Click += SystemFontEditorToolStripMenuItem_Click;
             // 
             // imageEditorToolStripMenuItem
             // 
             imageEditorToolStripMenuItem.Name = "imageEditorToolStripMenuItem";
-            imageEditorToolStripMenuItem.Size = new Size(180, 22);
+            imageEditorToolStripMenuItem.Size = new Size(173, 22);
             imageEditorToolStripMenuItem.Text = "Image Editor";
             // 
             // previewScreenToolStripMenuItem
             // 
             previewScreenToolStripMenuItem.Name = "previewScreenToolStripMenuItem";
-            previewScreenToolStripMenuItem.Size = new Size(180, 22);
+            previewScreenToolStripMenuItem.Size = new Size(173, 22);
             previewScreenToolStripMenuItem.Text = "Preview Screen";
             previewScreenToolStripMenuItem.Click += PreviewScreenToolStripMenuItem_Click;
             // 

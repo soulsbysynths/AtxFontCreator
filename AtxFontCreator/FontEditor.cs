@@ -440,7 +440,7 @@ namespace AtxFontCreator
 
         private void ChkIncludeNumbers_CheckedChanged(object sender, EventArgs e)
         {
-
+            WriteIncludeFlag(IncludeCharactersTypes.Numbers, chkIncludeNumbers.Checked);
         }
     }
 }

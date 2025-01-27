@@ -40,8 +40,8 @@
             // 
             // splitContainer1
             // 
-            splitContainer1.Dock = DockStyle.Fill;
             splitContainer1.Location = new Point(0, 0);
+            splitContainer1.Margin = new Padding(2);
             splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
@@ -51,19 +51,21 @@
             // splitContainer1.Panel2
             // 
             splitContainer1.Panel2.Controls.Add(atxFont1);
-            splitContainer1.Size = new Size(1157, 743);
-            splitContainer1.SplitterDistance = 297;
+            splitContainer1.Size = new Size(810, 446);
+            splitContainer1.SplitterDistance = 207;
+            splitContainer1.SplitterWidth = 3;
             splitContainer1.TabIndex = 2;
             // 
             // lstAtxFontLibrary
             // 
             lstAtxFontLibrary.Dock = DockStyle.Fill;
             lstAtxFontLibrary.FormattingEnabled = true;
-            lstAtxFontLibrary.ItemHeight = 25;
+            lstAtxFontLibrary.ItemHeight = 15;
             lstAtxFontLibrary.Location = new Point(0, 0);
+            lstAtxFontLibrary.Margin = new Padding(2);
             lstAtxFontLibrary.Name = "lstAtxFontLibrary";
             lstAtxFontLibrary.ScrollAlwaysVisible = true;
-            lstAtxFontLibrary.Size = new Size(297, 743);
+            lstAtxFontLibrary.Size = new Size(207, 446);
             lstAtxFontLibrary.TabIndex = 2;
             lstAtxFontLibrary.SelectedIndexChanged += LstAtxFontLibrary_SelectedIndexChanged;
             // 
@@ -73,21 +75,23 @@
             atxFont1.Dock = DockStyle.Fill;
             atxFont1.FontName = "";
             atxFont1.Location = new Point(0, 0);
-            atxFont1.Margin = new Padding(6, 8, 6, 8);
+            atxFont1.Margin = new Padding(4, 5, 4, 5);
             atxFont1.Mode = AtxFont.EditMode.Edit;
             atxFont1.Name = "atxFont1";
             atxFont1.PixelSize = new Size(0, 0);
-            atxFont1.Size = new Size(856, 743);
+            atxFont1.Size = new Size(600, 446);
             atxFont1.StartCharacter = 0;
             atxFont1.TabIndex = 0;
+            atxFont1.NameChanged += AtxFont1_NameChanged;
             // 
             // AtxFontLibrary
             // 
-            AutoScaleDimensions = new SizeF(10F, 25F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1157, 743);
+            ClientSize = new Size(810, 447);
             Controls.Add(splitContainer1);
             Icon = (Icon)resources.GetObject("$this.Icon");
+            Margin = new Padding(2);
             MinimizeBox = false;
             Name = "AtxFontLibrary";
             ShowIcon = false;
