@@ -31,10 +31,8 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AtxFontLibrary));
             splitContainer1 = new SplitContainer();
             lstAtxFontLibrary = new ListBox();
-            atxFont1 = new AtxFont();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
             splitContainer1.Panel1.SuspendLayout();
-            splitContainer1.Panel2.SuspendLayout();
             splitContainer1.SuspendLayout();
             SuspendLayout();
             // 
@@ -47,10 +45,6 @@
             // splitContainer1.Panel1
             // 
             splitContainer1.Panel1.Controls.Add(lstAtxFontLibrary);
-            // 
-            // splitContainer1.Panel2
-            // 
-            splitContainer1.Panel2.Controls.Add(atxFont1);
             splitContainer1.Size = new Size(810, 446);
             splitContainer1.SplitterDistance = 207;
             splitContainer1.SplitterWidth = 3;
@@ -69,36 +63,17 @@
             lstAtxFontLibrary.TabIndex = 2;
             lstAtxFontLibrary.SelectedIndexChanged += LstAtxFontLibrary_SelectedIndexChanged;
             // 
-            // atxFont1
-            // 
-            atxFont1.CharacterCount = 0;
-            atxFont1.Dock = DockStyle.Fill;
-            atxFont1.FontName = "";
-            atxFont1.Location = new Point(0, 0);
-            atxFont1.Margin = new Padding(4, 5, 4, 5);
-            atxFont1.Mode = AtxFont.EditMode.Edit;
-            atxFont1.Name = "atxFont1";
-            atxFont1.PixelSize = new Size(0, 0);
-            atxFont1.Size = new Size(600, 446);
-            atxFont1.StartCharacter = 0;
-            atxFont1.TabIndex = 0;
-            atxFont1.NameChanged += AtxFont1_NameChanged;
-            // 
             // AtxFontLibrary
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(810, 447);
+            ClientSize = new Size(812, 447);
             Controls.Add(splitContainer1);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(2);
-            MinimizeBox = false;
             Name = "AtxFontLibrary";
-            ShowIcon = false;
-            ShowInTaskbar = false;
             Text = "ATX Font Library";
             splitContainer1.Panel1.ResumeLayout(false);
-            splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
             splitContainer1.ResumeLayout(false);
             ResumeLayout(false);
@@ -107,6 +82,5 @@
         #endregion
         private SplitContainer splitContainer1;
         private ListBox lstAtxFontLibrary;
-        private AtxFont atxFont1;
     }
 }

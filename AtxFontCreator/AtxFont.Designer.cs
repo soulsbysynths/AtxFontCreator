@@ -54,9 +54,9 @@
             numWidth = new NumericUpDown();
             label3 = new Label();
             label2 = new Label();
-            txtFontName = new TextBox();
             label1 = new Label();
             flpCharacters = new FlowLayoutPanel();
+            txtFontName = new TextBox();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
             splitContainer1.Panel1.SuspendLayout();
             splitContainer1.Panel2.SuspendLayout();
@@ -292,6 +292,7 @@
             // 
             // groupBox2
             // 
+            groupBox2.Controls.Add(txtFontName);
             groupBox2.Controls.Add(numCharacterCount);
             groupBox2.Controls.Add(label5);
             groupBox2.Controls.Add(lblStartCharacter);
@@ -301,7 +302,6 @@
             groupBox2.Controls.Add(numWidth);
             groupBox2.Controls.Add(label3);
             groupBox2.Controls.Add(label2);
-            groupBox2.Controls.Add(txtFontName);
             groupBox2.Controls.Add(label1);
             groupBox2.Dock = DockStyle.Left;
             groupBox2.Location = new Point(0, 0);
@@ -383,7 +383,7 @@
             label3.AutoSize = true;
             label3.Location = new Point(142, 40);
             label3.Name = "label3";
-            label3.Size = new Size(12, 15);
+            label3.Size = new Size(13, 15);
             label3.TabIndex = 8;
             label3.Text = "x";
             // 
@@ -393,17 +393,9 @@
             label2.Location = new Point(5, 40);
             label2.Margin = new Padding(3);
             label2.Name = "label2";
-            label2.Size = new Size(56, 15);
+            label2.Size = new Size(57, 15);
             label2.TabIndex = 7;
             label2.Text = "Pixel size:";
-            // 
-            // txtFontName
-            // 
-            txtFontName.Location = new Point(53, 13);
-            txtFontName.Name = "txtFontName";
-            txtFontName.Size = new Size(144, 23);
-            txtFontName.TabIndex = 4;
-            txtFontName.WordWrap = false;
             // 
             // label1
             // 
@@ -425,6 +417,14 @@
             flpCharacters.Name = "flpCharacters";
             flpCharacters.Size = new Size(942, 297);
             flpCharacters.TabIndex = 13;
+            // 
+            // txtFontName
+            // 
+            txtFontName.Location = new Point(53, 12);
+            txtFontName.Name = "txtFontName";
+            txtFontName.Size = new Size(143, 23);
+            txtFontName.TabIndex = 16;
+            txtFontName.TextChanged += TxtFontName_TextChanged;
             // 
             // AtxFont
             // 
@@ -483,7 +483,7 @@
         private NumericUpDown numWidth;
         private Label label3;
         private Label label2;
-        private TextBox txtFontName;
         private Label label1;
+        private TextBox txtFontName;
     }
 }

@@ -1,3 +1,4 @@
+using AtxFontCreator;
 using System.Drawing.Drawing2D;
 using System.Drawing.Text;
 using System.Runtime.CompilerServices;
@@ -5,15 +6,11 @@ using System.Security.Cryptography;
 
 namespace AtxFontCreator
 {
-    public partial class Form1 : Form
+    public partial class AtxFontCreator : Form
     {
-        public Form1()
+        public AtxFontCreator()
         {
             InitializeComponent();
-            AtxFontLibrary.Focus();
-            Form2 form2 = new Form2();
-            form2.MdiParent = this;
-            form2.Show();
         }
 
         private void ImportToolStripMenuItem_Click(object sender, EventArgs e)
@@ -85,8 +82,15 @@ namespace AtxFontCreator
                     }
                 }
 
-                atxScreen ??= new AtxScreen();
-                atxScreen.MdiParent = this;
+                if (atxScreen == null)
+                {
+                    atxScreen = new()
+                    {
+                        MdiParent = this
+                    };
+                    atxScreen.Show();
+                }
+
                 return atxScreen;
             }
         }
@@ -105,8 +109,15 @@ namespace AtxFontCreator
                     }
                 }
 
-                fontLibrary ??= new AtxFontLibrary();
-                fontLibrary.MdiParent = this;
+                if (fontLibrary == null)
+                {
+                    fontLibrary = new()
+                    {
+                        MdiParent = this
+                    };
+                    fontLibrary.Show();
+                }
+
                 return fontLibrary;
             }
         }
@@ -125,8 +136,15 @@ namespace AtxFontCreator
                     }
                 }
 
-                fontEditor ??= new FontEditor();
-                fontEditor.MdiParent = this;
+                if (fontEditor == null)
+                {
+                    fontEditor = new()
+                    {
+                        MdiParent = this
+                    };
+                    fontEditor.Show();
+                }
+
                 return fontEditor;
             }
         }
@@ -154,6 +172,11 @@ namespace AtxFontCreator
         private void PreviewScreenToolStripMenuItem_Click(object sender, EventArgs e)
         {
             AtxScreen.Focus();
+        }
+
+        private void MdiForm_Load(object sender, EventArgs e)
+        {
+            AtxFontLibrary.Focus();
         }
     }
 }

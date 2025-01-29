@@ -25,7 +25,6 @@ namespace AtxFontCreator
         public AtxFont()
         {
             InitializeComponent();
-            Dock = DockStyle.Fill;
         }
 
         private readonly List<AtxCharacter> characters = [];
@@ -74,7 +73,7 @@ namespace AtxFontCreator
                 fontName = value;
                 txtFontName.Text = fontName;
 
-                //NameChanged?.Invoke(this, EventArgs.Empty);
+                NameChanged?.Invoke(this, EventArgs.Empty);
             }
         }
 
@@ -138,7 +137,7 @@ namespace AtxFontCreator
 
         private void TxtFontName_TextChanged(object sender, EventArgs e)
         {
-            //FontName = txtFontName.Text;
+            FontName = txtFontName.Text;
         }
 
         private void NumWidth_ValueChanged(object sender, EventArgs e)

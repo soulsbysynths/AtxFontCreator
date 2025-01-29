@@ -37,6 +37,7 @@ namespace AtxFontCreator
                 PixelSize = new Size(8, 16),
                 StartCharacter = 33,
                 CharacterCount = 95,
+                Dock = DockStyle.Fill,
             });
 
             lstAtxFontLibrary.Refresh();

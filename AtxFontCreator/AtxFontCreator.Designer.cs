@@ -1,6 +1,6 @@
 ﻿namespace AtxFontCreator
 {
-    partial class Form1
+    partial class AtxFontCreator
     {
         /// <summary>
         ///  Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AtxFontCreator));
             menuStrip1 = new MenuStrip();
             fileToolStripMenuItem = new ToolStripMenuItem();
             newToolStripMenuItem = new ToolStripMenuItem();
@@ -155,7 +155,7 @@
             openFileDialog1.Filter = "Header files|*.h";
             openFileDialog1.FileOk += OpenFileDialog1_FileOk;
             // 
-            // Form1
+            // MdiForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -163,8 +163,9 @@
             Controls.Add(menuStrip1);
             Icon = (Icon)resources.GetObject("$this.Icon");
             IsMdiContainer = true;
-            Name = "Form1";
+            Name = "MdiForm";
             Text = "ATX Font Creator";
+            Load += MdiForm_Load;
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
             ResumeLayout(false);
